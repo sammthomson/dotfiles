@@ -1,0 +1,8 @@
+export EDITOR='emacs'
+
+# show the current git branch
+PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
+
+# shared history
+shopt -s histappend
+PROMPT_COMMAND='history -a'

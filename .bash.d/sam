@@ -1,0 +1,12 @@
+# Mac junk
+bind '"\e[5C": forward-word'
+bind '"\e[5D": backward-word'
+bind '"\e[1;5C": forward-word'
+bind '"\e[1;5D": backward-word'
+
+export PATH="$PATH:/usr/local/scala/bin"
+
+export PYTHONPATH="$PYTHONPATH:/Applications/GoogleAppEngineLauncher.app/Contents/Resources/GoogleAppEngine-default.bundle/Contents/Resources/google_appengine"
+alias scalala="scala -cp /Users/sam/.m2/repository/org/scalala/scalala_2.9.1/1.0.0.RC2/scalala_2.9.1-1.0.0.RC2.jar"
+
+

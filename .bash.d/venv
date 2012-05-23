@@ -1,0 +1,5 @@
+export WORKON_HOME="/opt/virtualenvs"
+
+source /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh
+
+alias ipy="python $(which ipython)"
