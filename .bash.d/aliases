@@ -7,6 +7,12 @@ alias l="ls -lAh"
 alias ll="ls -l"
 alias la='ls -A'
 
+# mkdir
+alias mkdir="mkdir -p"
+
+# grep
+alias grep="grep -r"
+
 # git
 alias gti="git"
 alias gl='git pull'

@@ -1,0 +1,18 @@
+# from http://www.ukuug.org/events/linux2003/papers/bash_tips/
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+# Magic Space
+$if Bash
+  Space: magic-space
+$endif
+
+# Insert-Option Macro
+"\M-o": "\C-p\C-a\M-f "
+
+# ignore case in tab-completion
+set completion-ignore-case on
+
+# Completion Cycling
+set show-all-if-ambiguous on
+"\M-s": menu-complete

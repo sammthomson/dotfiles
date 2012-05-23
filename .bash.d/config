@@ -1,8 +1,15 @@
 export EDITOR='emacs'
 
 # show the current git branch
-PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
+export PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
 
+# from http://www.ukuug.org/events/linux2003/papers/bash_tips/
 # shared history
 shopt -s histappend
-PROMPT_COMMAND='history -a'
+export PROMPT_COMMAND='history -a'
+
+shopt -s cdspell
+
+export CDPATH='.:..:../..:~/links'
+
+export IGNOREEOF=1
