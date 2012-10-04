@@ -1,7 +1,8 @@
 export EDITOR='emacs'
 # make sure emacs has somewhere to put *~ backup files
-if [ -d ~/.emacs_backups ]; then
-        mkdir ~/.emacs_backups
+export EMACS_BACKUP_DIR="~/.emacs.d/backups"
+if [ -d ${EMACS_BACKUP_DIR} ]; then
+        mkdir ${EMACS_BACKUP_DIR}
 fi
 
 export PATH="$PATH:$HOME/bin"
