@@ -1,0 +1,115 @@
+#!/bin/bash
+# modified from https://github.com/holman/dotfiles/blob/master/script/bootstrap
+
+set -e
+
+info () {
+  printf "  [ \033[00;34m..\033[0m ] $1"
+}
+
+user () {
+  printf "\r  [ \033[0;33m?\033[0m ] $1 "
+}
+
+success () {
+  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
+}
+
+fail () {
+  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
+  echo ''
+  exit
+}
+
+link_files () {
+  ln -s $1 $2
+  success "linked $1 to $2"
+}
+
+install_dotfiles () {
+  info 'installing dotfiles'
+
+  overwrite_all=false
+  backup_all=false
+  skip_all=false
+
+  for source_file in *
+  do
+    dest="${HOME}/.${source_file}"
+
+    if [ -f $dest ] || [ -d $dest ]
+    then
+
+      overwrite=false
+      backup=false
+      skip=false
+
+      if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
+      then
+        user "File already exists: `basename $source_file`, what do you want to do? [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
+        read -n 1 action
+
+        case "$action" in
+          o )
+            overwrite=true;;
+          O )
+            overwrite_all=true;;
+          b )
+            backup=true;;
+          B )
+            backup_all=true;;
+          s )
+            skip=true;;
+          S )
+            skip_all=true;;
+          * )
+            ;;
+        esac
+      fi
+
+      if [ "$overwrite" == "true" ] || [ "$overwrite_all" == "true" ]
+      then
+        rm -rf $dest
+        success "removed $dest"
+      fi
+
+      if [ "$backup" == "true" ] || [ "$backup_all" == "true" ]
+      then
+        mv $dest $dest\.backup
+        success "moved $dest to $dest.backup"
+      fi
+
+      if [ "$skip" == "false" ] && [ "$skip_all" == "false" ]
+      then
+        link_files $source_file $dest
+      else
+        success "skipped $source_file"
+      fi
+
+    else
+      link_files $source_file $dest
+    fi
+
+  done
+}
+
+
+deploy () {
+  source_file="$1"
+  dest="$2"
+  echo "Deploying ${dest}"
+  if [ -e $dest ] ; then
+    echo "${dest} exists. skipping."
+    continue
+  fi
+  echo rm "${dest}" 2> /dev/null
+  echo ln -s "${source_file}" "${dest}"
+}
+
+pushd home 2> /dev/null
+  #for file in *; do
+  #  deploy "$(pwd)/${file}" "${HOME}/.${file}"
+  #done
+  install_dotfiles
+popd 2> /dev/null
+
