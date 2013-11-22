@@ -94,22 +94,8 @@ install_dotfiles () {
 }
 
 
-deploy () {
-  source_file="$1"
-  dest="$2"
-  echo "Deploying ${dest}"
-  if [ -e $dest ] ; then
-    echo "${dest} exists. skipping."
-    continue
-  fi
-  echo rm "${dest}" 2> /dev/null
-  echo ln -s "${source_file}" "${dest}"
-}
-
 pushd home 2> /dev/null
-  #for file in *; do
-  #  deploy "$(pwd)/${file}" "${HOME}/.${file}"
-  #done
-  install_dotfiles
-popd 2> /dev/null
 
+install_dotfiles
+
+popd 2> /dev/null
