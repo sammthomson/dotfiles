@@ -33,8 +33,9 @@ install_dotfiles () {
   backup_all=false
   skip_all=false
 
-  for source_file in *
+  for source in *
   do
+    source_file="$(pwd)/${source}"
     dest="${HOME}/.${source_file}"
 
     if [ -f $dest ] || [ -d $dest ]
