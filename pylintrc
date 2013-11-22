@@ -1,0 +1,40 @@
+[FORMAT]
+
+# String used as indentation unit. This is usually "    " (4 spaces) or "\t" (1
+# tab).
+# Default: '    '
+indent-string="    "
+
+
+[DESIGN]
+
+# Maximum number of arguments for function / method
+# Default: 5
+max-args=5
+# Maximum number of locals for function / method body
+# Default 15
+max-locals=15
+# Maximum number of return / yield for function / method body
+# Default: 6
+max-returns=1
+
+
+[MISCELLANEOUS]
+
+# List of note tags to take in consideration, separated by a comma.
+# Default: FIXME,XXX,TODO
+notes=FIXME,XXX,TODO,NOTE,NB
+
+
+[SIMILARITIES]
+
+# Minimum lines number of a similarity.
+# Default: 4
+min-similarity-lines=2
+
+
+[REPORTS]
+# Set the output format. Available formats are text, parseable, colorized, msvs (visual studio) and html
+# Default: text
+output-format: parseable
+reports: y
