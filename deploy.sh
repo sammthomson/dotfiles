@@ -22,35 +22,36 @@ fail () {
 }
 
 link_files () {
-  ln -s $1 $2
-  success "linked $1 to $2"
+  ln -sf "${1}" "${2}"
+  success "linked ${1} to ${2}"
 }
 
 install_dotfiles () {
-  info 'installing dotfiles'
+  info "installing dotfiles"
 
-  overwrite_all=false
-  backup_all=false
-  skip_all=false
+  overwrite_all="false"
+  backup_all="false"
+  skip_all="false"
 
-  for source in *
+  for source_file in $(ls -d "$(pwd)"/*)
   do
-    source_file="$(pwd)/${source}"
-    dest="${HOME}/.${source_file}"
-
-    if [ -f $dest ] || [ -d $dest ]
+    source="$(basename ${source_file})"
+    dest="${HOME}/.${source}"
+    #echo
+    #echo source="${source}", dest="${dest}"
+    if [ -f ${dest} ] || [ -d ${dest} ] || [ -h ${dest} ]
     then
 
       overwrite=false
       backup=false
       skip=false
 
-      if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
+      if [ "${overwrite_all}" == "false" ] && [ "${backup_all}" == "false" ] && [ "${skip_all}" == "false" ]
       then
-        user "File already exists: `basename $source_file`, what do you want to do? [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
+        user "File already exists: ${dest}, what do you want to do? [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
         read -n 1 action
 
-        case "$action" in
+        case "${action}" in
           o )
             overwrite=true;;
           O )
@@ -68,35 +69,35 @@ install_dotfiles () {
         esac
       fi
 
-      if [ "$overwrite" == "true" ] || [ "$overwrite_all" == "true" ]
+      if [ "${overwrite}" == "true" ] || [ "${overwrite_all}" == "true" ]
       then
-        rm -rf $dest
-        success "removed $dest"
+        rm -rf "${dest}"
+        success "removed ${dest}"
       fi
 
-      if [ "$backup" == "true" ] || [ "$backup_all" == "true" ]
+      if [ "${backup}" == "true" ] || [ "${backup_all}" == "true" ]
       then
-        mv $dest $dest\.backup
-        success "moved $dest to $dest.backup"
+        mv "${dest}" "${dest}\.backup"
+        success "moved ${dest} to ${dest}.backup"
       fi
 
-      if [ "$skip" == "false" ] && [ "$skip_all" == "false" ]
+      if [ "${skip}" == "false" ] && [ "${skip_all}" == "false" ]
       then
-        link_files $source_file $dest
+        link_files "${source_file}" "${dest}"
       else
-        success "skipped $source_file"
+        success "skipped ${source_file}"
       fi
 
     else
-      link_files $source_file $dest
+      link_files "${source_file}" "${dest}"
     fi
 
   done
 }
 
 
-pushd home 2> /dev/null
+pushd home > /dev/null 2>&1
 
 install_dotfiles
 
-popd 2> /dev/null
+popd > /dev/null 2>&1
