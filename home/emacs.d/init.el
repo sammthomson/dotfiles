@@ -26,4 +26,4 @@
 (add-to-list 'load-path "~/.emacs.d/scala")
 (require 'scala-mode-auto)
 
-(load "/Users/sam/code/ducttape-0.3/tool-support/emacs/ducttape.el")
+(load "~/code/ducttape/tool-support/emacs/ducttape.el")
