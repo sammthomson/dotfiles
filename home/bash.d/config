@@ -5,7 +5,7 @@ if [ -d ${EMACS_BACKUP_DIR} ]; then
         mkdir ${EMACS_BACKUP_DIR}
 fi
 
-export PATH="$PATH:$HOME/bin"
+export PATH="$PATH:$HOME/bin:$HOME/bin/play"
 
 # show the current git branch
 export PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
