@@ -12,7 +12,8 @@ bind '"\e[5D": backward-word'
 bind '"\e[1;5C": forward-word'
 bind '"\e[1;5D": backward-word'
 
-export PATH="$PATH:$HOME/bin:$HOME/bin/play"
+export PATH="$PATH:$HOME/bin:$HOME/bin/play:$HOME/.cabal/bin"
+
 
 # show the current git branch
 export PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
