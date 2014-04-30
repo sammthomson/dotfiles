@@ -16,3 +16,7 @@ set completion-ignore-case on
 # Completion Cycling
 set show-all-if-ambiguous on
 "\M-s": menu-complete
+
+set editing-mode emacs
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
