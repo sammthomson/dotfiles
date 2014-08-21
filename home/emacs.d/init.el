@@ -11,6 +11,9 @@
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
 (setq backup-by-copying t)
 
+;; too easy to suspend process by accident
+(global-unset-key (kbd "C-z"))
+
 ;; JavaScript
 (add-to-list 'load-path "~/.emacs.d/js")
 (load "js3.elc")

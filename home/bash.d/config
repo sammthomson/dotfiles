@@ -1,4 +1,4 @@
-export EDITOR='emacs'
+export EDITOR='emacs -nw'
 # make sure emacs has somewhere to put *~ backup files
 export EMACS_BACKUP_DIR="~/.emacs.d/backups"
 if [ -d ${EMACS_BACKUP_DIR} ]; then
@@ -13,6 +13,8 @@ bind '"\e[1;5C": forward-word'
 bind '"\e[1;5D": backward-word'
 
 export PATH="$PATH:$HOME/bin:$HOME/bin/play:$HOME/.cabal/bin"
+export PATH="$PATH:$HOME/bin/jython/current/bin"
+export PATH="/opt/scala/current/bin:$PATH"
 
 
 # show the current git branch
