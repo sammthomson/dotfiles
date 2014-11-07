@@ -14,7 +14,7 @@ alias mkdir="mkdir -p"
 alias emacs="emacs -nw"
 
 # grep
-alias grep="grep -r"
+#alias grep="grep -r"
 
 # git
 alias gti="git"
@@ -30,3 +30,7 @@ alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
 alias changelog='git log `git log -1 --format=%H -- CHANGELOG*`..; cat CHANGELOG*'
 
 alias reload='. ~/.bash_profile'
+
+alias wakeup='sudo nmcli nm sleep false'
+
+alias tgz='tar -cvzf'
