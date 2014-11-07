@@ -29,3 +29,6 @@ pip-log.txt
 # Emacs cruft
 *~
 *\#
+
+# Emacs installed packages
+home/emacs.d/elpa/
