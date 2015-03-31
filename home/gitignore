@@ -1,4 +1,9 @@
 # IDE cruft
 *.iml
 .idea
-
+.RData
+.Rhistory
+.project
+.settings/
+.texlipse
+tmp/
