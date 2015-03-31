@@ -17,13 +17,16 @@ brew install ack
 brew install trash
 brew install rename
 brew install ffmpeg
+brew install graphicsmagick
 brew install caskroom/cask/brew-cask
 brew tap caskroom/versions
 brew cask install java6
 brew cask install java7
 brew cask install java # 8
+brew install scala
 brew install sbt
 brew cask install intellij-idea
+brew cask install eclipse-ide
 brew cask install osxfuse
 brew install sshfs # has to come after osxfuse
 brew cask install google-chrome
