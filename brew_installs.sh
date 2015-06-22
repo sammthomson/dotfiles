@@ -7,6 +7,7 @@ brew install coreutils --with-default-names
 brew install findutils --with-default-names
 brew tap homebrew/dupes
 brew install homebrew/dupes/grep --with-default-names
+brew install wget
 brew install emacs
 brew install automake
 brew install htop
@@ -23,6 +24,7 @@ brew tap caskroom/versions
 brew cask install java6
 brew cask install java7
 brew cask install java # 8
+brew install maven
 brew install scala
 brew install sbt
 brew cask install intellij-idea
@@ -33,8 +35,16 @@ brew cask install google-chrome
 brew cask install firefox
 brew cask install sublime-text
 brew cask install skim
+brew cask install cyberduck # ftp
 brew cask install zotero
 brew cask install r
+# haskell
+brew cask install haskell-platform
+cabal install cabal-install # upgrade cabal
+# idris
+brew install pkg-config gmp libffi boehmgc llvm
+cabal install idris
+# latex
 brew cask install mactex
 # keyboard shortcuts for moving window to screen quadrants
 brew cask install spectacle
