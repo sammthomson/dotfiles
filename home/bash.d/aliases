@@ -33,3 +33,9 @@ alias reload='. ~/.bash_profile'
 alias wakeup='sudo nmcli nm sleep false'
 
 alias tgz='tar -cvzf'
+
+# util
+backupFile() {
+    mv $1{,.bak}
+}
+alias bak=backupFile
