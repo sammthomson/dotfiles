@@ -1,3 +1,6 @@
+# Mac cruft
+.DS_Store
+
 # IDE cruft
 *.iml
 .idea
