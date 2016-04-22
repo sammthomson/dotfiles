@@ -12,6 +12,7 @@ brew install emacs
 brew install automake
 brew install htop
 brew install tmux
+brew install watch
 brew install git
 brew install tree
 brew install ack
