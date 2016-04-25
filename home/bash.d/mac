@@ -1,6 +1,5 @@
-# export JAVA_HOME_7="/System/Library/Java/JavaVirtualMachines/1.7.0_17.jdk/Contents/Home"
-
-# export JAVA_HOME=${JAVA_HOME_7}
+export JAVA_HOME_7="/Library/Java/JavaVirtualMachines/jdk1.7.0_76.jdk/Contents/Home/"
+export JAVA_HOME=${JAVA_HOME_7}
 
 export PATH="$HOME/Library/Haskell/bin:$PATH"
 # Setting PATH for Python 2.7
