@@ -11,5 +11,8 @@ export MANPATH="$(brew --prefix coreutils)/libexec/gnuman:${MANPATH}"
 
 # Anaconda
 export PATH="/opt/anaconda/bin:$PATH"
+
+export PATH="$HOME/Library/Haskell/bin:$PATH"
+
 # Homebrew turned evil
 HOMEBREW_NO_ANALYTICS=1
