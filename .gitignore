@@ -29,6 +29,9 @@ pip-log.txt
 # Emacs cruft
 *~
 *\#
+SessionDesktop.el
 
 # Emacs installed packages
 home/emacs.d/elpa/
+
+ghci_history
