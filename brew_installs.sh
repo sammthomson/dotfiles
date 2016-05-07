@@ -8,7 +8,7 @@ brew install findutils --with-default-names
 brew tap homebrew/dupes
 brew install homebrew/dupes/grep --with-default-names
 brew install wget
-brew install emacs
+brew install emacs --with-cocoa --with-gnutls --with-rsvg --with-imagemagick
 brew install automake
 brew install htop
 brew install tmux
