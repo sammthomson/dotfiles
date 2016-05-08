@@ -28,6 +28,7 @@ brew cask install java # 8
 brew install maven
 brew install scala
 brew install sbt
+brew install --HEAD paulp/extras/coursier  # better dependency resolution than ivy
 brew cask install intellij-idea
 brew cask install eclipse-ide
 brew cask install osxfuse
