@@ -1,0 +1,5 @@
+export JAVA_HOME_6="/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/"
+export JAVA_HOME_7=/Library/Java/JavaVirtualMachines/jdk1.7.0_76.jdk/Contents/Home/
+export JAVA_HOME="${JAVA_HOME_7}"
+export M2_HOME=""
+export M3_HOME="/usr/local/Cellar/maven/3.3.1/bin/mvn"
