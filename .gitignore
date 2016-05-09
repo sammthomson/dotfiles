@@ -37,5 +37,6 @@ home/emacs.d/projectile-bookmarks.eld
 home/emacs.d/ido.last
 home/emacs.d/ac-comphist.dat
 home/emacs.d/.smex-items
+home/emacs.d/ensime/
 
 ghci_history

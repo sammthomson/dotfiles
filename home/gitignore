@@ -8,6 +8,7 @@
 .Rhistory
 .project
 .ensime
+.ensime_cache/
 .settings/
 .texlipse
 tmp/
