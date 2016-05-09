@@ -1,12 +1,9 @@
-;; Many of these come from http://aaronbedra.com/emacs.d/
+;; many of these come from http://aaronbedra.com/emacs.d/
 
 ;; GLOBAL SETTINGS
 
 (setq user-full-name "Sam Thomson")
 (setq user-mail-address "sammthomson@gmail.com")
-
-;; for `loop for ...`, etc.
-(require 'cl)
 
 (setq inhibit-splash-screen t
       inhibit-startup-screen t
@@ -53,6 +50,12 @@
 ;; period single space ends sentence
 (setq sentence-end-double-space nil)
 
+(setq tab-width 2
+      indent-tabs-mode nil)
+;; auto indent after hitting return
+(global-set-key (kbd "RET") 'newline-and-indent)
+;;(global-set-key (kbd "M-/") 'hippie-expand)
+
 ;; http://endlessparentheses.com/meta-binds-part-2-a-peeve-with-paragraphs.html
 (global-set-key "\M-a" 'endless/backward-paragraph)
 (global-set-key "\M-e" 'endless/forward-paragraph)
@@ -84,7 +87,7 @@
 
 
 
-;; PACKAGES / MODES
+;; PACKAGES
 
 ;; MELPA package management
 (when (>= emacs-major-version 24)
@@ -101,62 +104,108 @@
   (package-refresh-contents)
   (package-install 'use-package))
 (eval-when-compile
-  (require 'use-package))  ;; macro, not needed at runtime
+  (require 'use-package))  ;; use-package is a macro, so not needed at runtime
 
 (require 'diminish)
 (require 'bind-key)
 
 
-(defvar sthomson/packages
-  '(;;clojure-mode
-    ;;coffee-mode
-    ;;deft
-    ;;feature-mode
-    flycheck
-    ;;graphviz-dot-mode
-    ;; haml-mode
-    haskell-mode
-    htmlize
-    idris-mode
-    markdown-mode
-    ;;nodejs-repl
-    org
-    paredit
-    ;; scala-mode  ;; manually installed
-    ensime ;; for Scala
-    smex
-    base16-theme
-    web-mode
-    writegood-mode
-    yaml-mode)
-  "Default packages")
+;;clojure-mode
+;;coffee-mode
+;;deft
+;;feature-mode
+;;graphviz-dot-mode
+;; haml-mode
+;;nodejs-repl
+;;paredit
+;;web-mode
+;;yaml-mode
 
-(defun sthomson/all-packages-installed-p ()
-  (loop for pkg in sthomson/packages
-        when (not (package-installed-p pkg)) do (return nil)
-        finally (return t)))
+;; (defun sthomson/all-packages-installed-p ()
+;;   (loop for pkg in sthomson/packages
+;;         when (not (package-installed-p pkg)) do (return nil)
+;;         finally (return t)))
 
-(unless (sthomson/all-packages-installed-p)
-  (message "%s" "Refreshing package database...")
-  (package-refresh-contents)
-  (dolist (pkg sthomson/packages)
-    (when (not (package-installed-p pkg))
-      (package-install pkg))))
+;; (unless (sthomson/all-packages-installed-p)
+;;   (message "%s" "Refreshing package database...")
+;;   (package-refresh-contents)
+;;   (dolist (pkg sthomson/packages)
+;;     (when (not (package-installed-p pkg))
+;;       (package-install pkg))))
+
+(use-package org
+  :ensure t)
+
+(use-package htmlize
+  :ensure t)
+
+(use-package flycheck
+  :ensure t)
+(use-package flycheck-cask
+  :commands flycheck-cask-setup
+  :config (add-hook 'emacs-lisp-mode-hook (flycheck-cask-setup)))
 
 (use-package powerline
   :ensure t)
 (powerline-default-theme)
 
-(use-package auto-complete
-  :ensure t
-  :diminish auto-complete-mode)
-(global-auto-complete-mode t)
+;; (use-package auto-complete
+;;   :ensure t
+;;   :diminish auto-complete-mode)
+;; (global-auto-complete-mode t)
 
-(use-package autopair
+(use-package company
   :ensure t
-  :diminish autopair-mode)
-(autopair-global-mode 1)
+  :diminish company-mode
+  :commands company-mode
+  :init
+  (setq
+   company-dabbrev-ignore-case nil
+   company-dabbrev-code-ignore-case nil
+   company-dabbrev-downcase nil
+   company-idle-delay 0
+   company-minimum-prefix-length 3)
+  :config
+  ;;;; disables TAB in company-mode, freeing it for yasnippet
+  (define-key company-active-map [tab] nil))
+(global-company-mode t)
 
+(use-package undo-tree
+  :ensure
+  :diminish undo-tree-mode
+  :config (global-undo-tree-mode)
+  :bind ("s-/" . undo-tree-visualize))
+
+;; (use-package autopair
+;;   :ensure t
+;;   :diminish autopair-mode)
+;; (autopair-global-mode t)
+
+(use-package smartparens
+  :ensure t
+  :diminish smartparens-mode
+  :commands
+  smartparens-strict-mode
+  smartparens-mode
+  sp-restrict-to-pairs-interactive
+  sp-local-pair
+  :init
+  (setq sp-interactive-dwim t)
+  :config
+  (require 'smartparens-config)
+  (sp-use-smartparens-bindings)
+
+  (sp-pair "(" ")" :wrap "C-(") ;; how do people live without this?
+  (sp-pair "[" "]" :wrap "s-[") ;; C-[ sends ESC
+  (sp-pair "{" "}" :wrap "C-{")
+
+  ;; WORKAROUND https://github.com/Fuco1/smartparens/issues/543
+  (bind-key "C-<left>" nil smartparens-mode-map)
+  (bind-key "C-<right>" nil smartparens-mode-map)
+
+  (bind-key "s-<delete>" 'sp-kill-sexp smartparens-mode-map)
+  (bind-key "s-<backspace>" 'sp-backward-kill-sexp smartparens-mode-map))
+(smartparens-global-mode t)
 (show-paren-mode t)
 
 ;;(require 'ido)
@@ -166,9 +215,9 @@
 (ido-everywhere t)
 (flx-ido-mode t)
 ;; disable ido faces to see flx highlights.
-(setq ido-enable-flex-matching t)
-(setq ido-use-faces nil)
-(setq flx-ido-threshold 10000)
+(setq ido-enable-flex-matching t
+      ido-use-faces nil
+      flx-ido-threshold 10000)
 
 (use-package projectile
   :ensure t
@@ -182,7 +231,6 @@
 (use-package expand-region
   :ensure t
   :bind ("M-2" . er/expand-region))
-
 
 (use-package yasnippet
   :ensure t
@@ -198,6 +246,10 @@
   :bind (("s-g" . magit-status)
          ("s-b" . magit-blame)))
 
+(use-package git-gutter
+  :ensure t)
+(global-git-gutter-mode t)
+
 ;; provides history and searching on top of M-x.
 (use-package smex
   :ensure t)
@@ -207,24 +259,37 @@
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
 
-
-
 ;; Programming Languages
 
 ;; scala mode
-;;(add-to-list 'load-path "~/.emacs.d/scala")
-;;(require 'scala-mode-auto)
 (use-package ensime
   :ensure t
-  :commands ensime ensime-mode)
-(add-hook 'scala-mode-hook 'ensime-mode)
-(add-hook 'scala-mode-hook 'scala-mode:goto-start-of-code)
+  :commands ensime ensime-mode
+  :config
+  (use-package ensime-expand-region
+    :ensure t))
+(add-hook 'scala-mode-hook
+	  (lambda ()
+            (show-paren-mode)
+            (smartparens-mode)
+            (yas-minor-mode)
+            (git-gutter-mode)
+            (company-mode)
+            (ensime-mode)
+            (make-local-variable 'company-backends)
+            (projectile-visit-project-tags-table)
+            (setq company-backends
+		  '(ensime-company (company-keywords
+				    company-dabbrev-code
+				    company-etags
+				    company-yasnippet)))
+            (scala-mode:goto-start-of-code)))
 
-(setq tab-width 2
-      indent-tabs-mode nil)
-;; auto indent after hitting return
-(global-set-key (kbd "RET") 'newline-and-indent)
-;;(global-set-key (kbd "M-/") 'hippie-expand)
+(use-package haskell-mode
+  :ensure t)
+
+(use-package idris-mode
+  :ensure t)
 
 ;; JavaScript
 ;; (add-to-list 'load-path "~/.emacs.d/js")
@@ -242,12 +307,17 @@
   (set 'tab-width 2))
 (add-hook 'coffee-mode-hook 'coffee-custom)
 
+(use-package yaml-mode
+  :ensure t)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
 
 ;; conf mode
 (add-to-list 'auto-mode-alist '("\\.gitconfig$" . conf-mode))
 
+
+(use-package writegood-mode
+  :ensure t)
 ;; Markdown mode
 (use-package markdown-mode
   :ensure t)
@@ -263,8 +333,10 @@
 
 
 ;; Fonts n colors n stuff
-
+(use-package base16-theme
+  :ensure t)
 (load-theme 'base16-eighties-dark t)
+
 
 (set-face-attribute 'default nil
 		    :family (if (eq system-type 'darwin)
