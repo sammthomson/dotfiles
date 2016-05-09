@@ -1,4 +1,4 @@
-export WORKON_HOME="${HOME}/code/.virtualenvs"  # "/opt/virtualenvs"
+export WORKON_HOME="${HOME}/code/.virtualenvs"
 export PROJECT_HOME="${HOME}/code"
 
 for venvdir in "/usr/local/bin" "/Library/Frameworks/Python.framework/Versions/2.7/bin" "/opt/anaconda/bin/"; do
