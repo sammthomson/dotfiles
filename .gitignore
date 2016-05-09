@@ -39,4 +39,6 @@ home/emacs.d/ac-comphist.dat
 home/emacs.d/.smex-items
 home/emacs.d/ensime/
 
-ghci_history
+# GHC installed packages, history, etc.
+home/ghc/ghci_history
+home/ghc/x86_64*
