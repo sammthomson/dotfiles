@@ -262,6 +262,11 @@
 (smartparens-global-mode t)
 (show-paren-mode t)
 
+(use-package multiple-cursors
+  :ensure t
+  :bind (("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)))
+
 ;;(require 'ido)
 (use-package flx-ido
   :ensure t)
@@ -272,6 +277,10 @@
 (setq ido-enable-flex-matching t
       ido-use-faces nil
       flx-ido-threshold 10000)
+
+(use-package ido-vertical-mode
+  :ensure t
+  :init (ido-vertical-mode 1))
 
 ;; ;; imenu-anywhere doesn't work without this
 ;; (use-package helm
@@ -285,7 +294,9 @@
   :ensure t
   :demand
   :diminish projectile-mode
-  :init   (setq projectile-use-git-grep t)
+  :init
+  (setq projectile-use-git-grep t)
+  (setq projectile-completion-system 'ido)
   :config (projectile-global-mode t)
   :bind   (("s-f" . projectile-find-file)
            ("s-F" . projectile-grep)))
@@ -305,6 +316,8 @@
   :commands magit-status magit-blame
   :init (setq
          magit-revert-buffers nil)
+  :config
+  (setq magit-completing-read-function 'magit-ido-completing-read)
   :bind (("s-g" . magit-status)
          ("s-b" . magit-blame)))
 
@@ -363,10 +376,9 @@
 (use-package idris-mode
   :ensure t)
 
-(defun js-custom ()
-  "Hook for `js-mode'."
-  (setq js-indent-level 2))
-(add-hook 'js-mode-hook 'js-custom)
+(add-hook 'js-mode-hook
+		  (lambda ()
+			(setq js-indent-level 2)))
 
 ;; (defun coffee-custom ()
 ;;   "coffee-mode-hook"
@@ -375,9 +387,8 @@
 ;; (add-hook 'coffee-mode-hook 'coffee-custom)
 
 (use-package yaml-mode
-  :ensure t)
-(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
+  :ensure t
+  :mode ("\\.yml$" "\\.yaml$"))
 
 ;; conf mode
 (add-to-list 'auto-mode-alist '("\\.gitconfig$" . conf-mode))
@@ -385,16 +396,14 @@
 
 (use-package writegood-mode
   :ensure t)
-;; Markdown mode
 (use-package markdown-mode
-  :ensure t)
-(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.mdown$" . markdown-mode))
-(add-hook 'markdown-mode-hook
-          (lambda ()
-            (visual-line-mode t)
-            (writegood-mode t)
-            (flyspell-mode t)))
+  :ensure t
+  :mode ("\\.md$"
+		 "\\.mdown$")
+  :config
+  (visual-line-mode t)
+  (writegood-mode t)
+  (flyspell-mode t))
 ;; (setq markdown-command "pandoc --smart -f markdown -t html")
 ;; (setq markdown-css-paths `(,(expand-file-name "markdown.css" abedra/vendor-dir)))
 
