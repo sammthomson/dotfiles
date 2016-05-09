@@ -266,8 +266,7 @@
   :ensure t
   :commands ensime ensime-mode
   :config
-  (use-package ensime-expand-region
-    :ensure t))
+  (require 'ensime-expand-region))
 (add-hook 'scala-mode-hook
 	  (lambda ()
             (show-paren-mode)
