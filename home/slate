@@ -1,6 +1,8 @@
 # This is all pretty copy-pasta at the moment. I don't really
 # understand it yet.
 
+# http://thume.ca/howto/2012/11/19/using-slate/
+
 # Configs
 config defaultToCurrentScreen true
 config nudgePercentOf screenSize
@@ -8,87 +10,61 @@ config resizePercentOf screenSize
 config secondsBetweenRepeat 0.1
 config checkDefaultsOnLoad true
 config focusCheckWidthMax 3000
-#config keyboardLayout dvorak
 config windowHintsShowIcons true
 config windowHintsIgnoreHiddenWindows false
-#config windowHintsDuration 5
+config windowHintsSpread true
+config windowHintsSpreadPadding 40
+config windowHintsSpreadSearchWidth 40
+config windowHintsSpreadSearchHeight 40
+config windowHintsDuration 10
 config windowHintsSpread true
 #config windowHintsOrder persist
 
 # Monitor Aliases
-alias mon-laptop  0
-alias mon-dell    1
+alias mon1  0
+alias mon2    1
 
 # Misc Aliases
-alias showHintsLeftHand hint ASDFGZXCVB
-alias showNormalHint    hint ASDFGZXCVBHJKL:ZXCVBNM<>?
+alias showHintsLeftHand hint QWERASDFZXCV
+alias showNormalHint    hint QWERUIOPASDFJKLZXCVM
+
 alias browser  'Google Chrome'
-alias editor   'emacs'
-alias terminal 'iTerm2'
+alias firefox  'Firefox'
+alias editor   'Emacs'
+alias ide      'IntelliJ IDEA'
+alias terminal 'iTerm'
+alias music    'iTunes'
 
-# Abstract positions
-alias full          move screenOriginX;screenOriginY                  screenSizeX;screenSizeY
-alias lefthalf      move screenOriginX;screenOriginY                  screenSizeX/2;screenSizeY
-alias righthalf     move screenOriginX+screenSizeX/2;screenOriginY    screenSizeX/2;screenSizeY
-alias rightmost     move screenOriginX+screenSizeX*0.4;screenOriginY  screenSizeX*0.6;screenSizeY
-alias rightless     move screenOriginX+screenSizeX*0.6;screenOriginY  screenSizeX*0.4;screenSizeY
-alias leftmost      move screenOriginX;screenOriginY                  screenSizeX*0.6;screenSizeY
-alias leftless      move screenOriginX;screenOriginY                  screenSizeX*0.4;screenSizeY
-# Concrete positions
-alias 1-full        move screenOriginX;screenOriginY screenSizeX;screenSizeY                   ${mon-laptop}
-alias 1-left        move screenOriginX;screenOriginY screenSizeX/2;screenSizeY                 ${mon-laptop}
-alias 1-right       move screenOriginX+screenSizeX/2;screenOriginY screenSizeX/2;screenSizeY   ${mon-laptop}
-alias 2-left        move screenOriginX;screenOriginY screenSizeX/2;screenSizeY                 ${mon-dell}
-alias 2-right       move screenOriginX+screenSizeX/2;screenOriginY screenSizeX/2;screenSizeY   ${mon-dell}
-alias 2-righttop    move screenOriginX+screenSizeX/2;screenOriginY screenSizeX/2;screenSizeY/2 ${mon-dell}
-alias 2-rightbottom move screenOriginX+screenSizeX/2;screenOriginY+screenSizeY/2 screenSizeX/2;screenSizeY/2 ${mon-dell}
+# Quadrants
+alias full        move   screenOriginX;screenOriginY screenSizeX;screenSizeY
+alias lefthalf    move   screenOriginX;screenOriginY screenSizeX/2;screenSizeY
+alias righthalf   move   screenOriginX+screenSizeX/2;screenOriginY screenSizeX/2;screenSizeY
+alias topleft     corner top-left resize:screenSizeX/2;screenSizeY/2
+alias topright    corner top-right resize:screenSizeX/2;screenSizeY/2
+alias bottomleft  corner bottom-left resize:screenSizeX/2;screenSizeY/2
+alias bottomright corner bottom-right resize:screenSizeX/2;screenSizeY/2
 
-# 2 Monitor layout
-layout 2monitors ${terminal}:MAIN_FIRST               ${2-rightbottom} | ${1-left}
-layout 2monitors ${browser}:REPEAT                    ${1-full}
-layout 2monitors ${editor}:REPEAT              		  ${1-full}
-layout 2monitors 'iTunes':REPEAT                      ${1-full}
-#layout 2monitors 'Safari':REPEAT                     ${1-full}
-#layout 2monitors 'Sublime Text 2':REPEAT             ${1-full}
-#layout 2monitors 'Mail':MAIN_FIRST                   ${2-left}
-#layout 2monitors 'Path Finder':MAIN_FIRST            ${2-righttop}
-#layout 2monitors 'Xcode':REPEAT                      ${1-full}
-#layout 2monitors 'Eclipse':REPEAT                    ${1-full}
 
 # 1 Monitor layout
-layout 1monitor ${terminal}:MAIN_FIRST                   ${1-right}
-layout 1monitor ${editor}:MAIN_FIRST              		 ${1-left}
-layout 1monitor ${browser}:REPEAT                        ${1-full}
-layout 1monitor 'iTunes':REPEAT                          ${1-full}
-# layout 1monitor 'Sublime Text 2':MAIN_FIRST              ${1-left}
-# layout 1monitor 'Safari':REPEAT                          ${1-full}
-# layout 1monitor 'Xcode':REPEAT                           ${1-full}
-# layout 1monitor 'Mail':MAIN_FIRST                        ${1-full}
-# layout 1monitor 'Path Finder':MAIN_FIRST                 ${1-full}
-# layout 1monitor 'Eclipse':REPEAT                         ${1-full}
+layout 1monitor ${terminal}:MAIN_FIRST                ${righthalf} ${mon1}
+layout 1monitor ${editor}:MAIN_FIRST              	  ${lefthalf}  ${mon1}
+layout 1monitor ${ide}:MAIN_FIRST              		  ${lefthalf}  ${mon1}
+layout 1monitor ${browser}:REPEAT                     ${full}      ${mon1}
+layout 1monitor ${firefox}:REPEAT                     ${full}      ${mon1}
+layout 1monitor ${music}:REPEAT                       ${righthalf} ${mon1}
+
+# 2 Monitor layout
+layout 2monitors ${editor}:REPEAT              		  ${lefthalf}    ${mon1}
+layout 2monitors ${browser}:REPEAT                    ${righthalf}   ${mon1}
+layout 2monitors ${firefox}:REPEAT                    ${righthalf}   ${mon1}
+layout 2monitors ${music}:REPEAT                      ${bottomright} ${mon1}
+layout 2monitors ${terminal}:MAIN_FIRST               ${topright}    ${mon1} | ${bottomright} ${mon1}
+layout 2monitors ${ide}:REPEAT                        ${full}        ${mon2}
 
 # Default Layouts
-default 2monitors resolutions:${mon-laptop};${mon-dell};
-default 1monitor  resolutions:${mon-laptop}
+default 2monitors resolutions:${mon1};${mon2};
+default 1monitor  resolutions:${mon1}
 
-# Numpad location Bindings
-bind pad0 ${showHintsLeftHand}
-bind pad1 ${leftless}
-bind pad2 push bottom bar-resize:screenSizeY/2
-bind pad3 ${rightless}
-bind pad4 ${lefthalf}
-bind pad5 ${full}
-bind pad6 ${righthalf}
-bind pad7 ${leftmost}
-bind pad8 push top bar-resize:screenSizeY/2
-bind pad9 ${rightmost}
-bind padEnter grid padding:5 ${mon-laptop}:6,2 ${mon-dell}:8,3
-bind pad+ throw next
-bind pad. focus behind
-bind pad* layout 2monitors
-bind pad/ layout 1monitor
-
-bind e:cmd  ${showNormalHint}
 
 # ======================================
 # The HYPER key
@@ -96,23 +72,29 @@ bind e:cmd  ${showNormalHint}
 
 alias hyper ctrl;shift;alt;cmd
 
-# Location bindings
-bind t:${hyper} ${lefthalf}
-bind n:${hyper} ${full}
-bind s:${hyper} ${righthalf}
-bind r:${hyper} throw next
+bind h:${hyper}  ${showNormalHint}
+bind s:${hyper}  ${showHintsLeftHand}
 
-# Resize Bindings
-#bind r:${hyper} ${leftmost}
-#bind g:${hyper} ${rightmost}
+bind 1:${hyper} layout 1monitor
+bind 2:${hyper} layout 2monitors
+
+
+# Location bindings
+bind right:${hyper}    ${righthalf}
+bind left:${hyper}     ${lefthalf}
+bind up:${hyper}       ${topleft}
+bind down:${hyper}     ${bottomleft}
+bind f:${hyper}        ${full}
+
+bind r:${hyper}        throw next
 
 # Focus Bindings
-bind right:${hyper}    focus right
-bind left:${hyper}     focus left
-bind up:${hyper}       focus up
-bind down:${hyper}     focus down
+bind j:${hyper} focus left
+bind k:${hyper} focus right
 
 # App bindings
-bind e:${hyper} focus ${browser}
-bind u:${hyper} focus ${editor}
-bind i:${hyper} focus ${terminal}
+bind t:${hyper} focus ${terminal}
+bind e:${hyper} focus ${editor}
+bind c:${hyper} focus ${browser}
+bind i:${hyper} focus ${ide}
+bind m:${hyper} focus ${music}
