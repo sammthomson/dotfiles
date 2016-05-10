@@ -21,6 +21,7 @@ alias gti="git"
 alias gl='git pull'
 alias gp='git push'
 alias gd='git diff'
+alias ga='git add'
 alias gc='git commit'
 alias gca='git commit -a'
 alias gco='git checkout'
