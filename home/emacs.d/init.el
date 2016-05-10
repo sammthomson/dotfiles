@@ -179,11 +179,14 @@
   :ensure t)
 
 (use-package flycheck
-  :ensure t)
-(use-package flycheck-cask
-  :commands flycheck-cask-setup
-  :config (add-hook 'emacs-lisp-mode-hook (flycheck-cask-setup)))
-(global-flycheck-mode t)
+  :ensure t
+  :init
+  (global-flycheck-mode t)
+  :config
+  (use-package flycheck-cask
+	:commands flycheck-cask-setup
+	:config (add-hook 'emacs-lisp-mode-hook (flycheck-cask-setup))))
+
 
 (setq ns-use-srgb-colorspace t)
 
@@ -269,14 +272,15 @@
 
 ;;(require 'ido)
 (use-package flx-ido
-  :ensure t)
-(ido-mode t)
-(ido-everywhere t)
-(flx-ido-mode t)
-;; disable ido faces to see flx highlights.
-(setq ido-enable-flex-matching t
+  :ensure t
+  :init
+  ;; disable ido faces to see flx highlights.
+  (setq ido-enable-flex-matching t
       ido-use-faces nil
       flx-ido-threshold 10000)
+  (ido-mode t)
+  (ido-everywhere t)
+  (flx-ido-mode t))
 
 (use-package ido-vertical-mode
   :ensure t
@@ -317,8 +321,7 @@
 (use-package magit
   :ensure t
   :commands magit-status magit-blame
-  :init (setq
-         magit-revert-buffers nil)
+  :init (setq magit-revert-buffers nil)
   :config
   (setq magit-completing-read-function 'magit-ido-completing-read)
   :bind (("s-g" . magit-status)
@@ -344,8 +347,9 @@
   :init (setq
          smex-save-file (expand-file-name ".smex-items" user-emacs-directory))
   :bind (("M-x" . smex)
-         ("M-X" . smex-major-mode-commands)))
-(smex-initialize)
+         ("M-X" . smex-major-mode-commands))
+  :config
+  (smex-initialize))
 
 
 ;; Programming Languages
