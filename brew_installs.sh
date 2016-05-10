@@ -12,6 +12,7 @@ brew install findutils --with-default-names
 brew tap homebrew/dupes
 brew install homebrew/dupes/grep --with-default-names
 brew install wget
+brew install readline
 brew install emacs --with-cocoa --with-gnutls --with-rsvg --with-imagemagick
 brew install aspell --with-lang-en
 brew install automake
@@ -53,10 +54,13 @@ brew install pkg-config gmp libffi boehmgc llvm
 cabal install idris
 # latex
 brew cask install mactex
-# keyboard shortcuts for moving window to screen quadrants
-brew cask install spectacle
-# remap caps lock
-brew cask install seil 
+# # trying out slate instead
+# brew cask install spectacle
+brew cask install slate
+# to remap caps lock
+# see https://msol.io/blog/tech/work-more-efficiently-on-your-mac-for-developers/
+brew cask install seil
+brew cask install karabiner
 # brew cask install spotify
 brew cask install vlc
 brew cask install transmission
@@ -65,7 +69,12 @@ brew cask install dropbox
 brew cask install skype
 brew cask install flash
 brew cask install silverlight
+# brew install inkscape  # i don't usually install this until i need it
 # anaconda?
+
+
+brew cleanup
+
 
 # Mac OS defaults
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
