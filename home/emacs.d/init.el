@@ -142,7 +142,7 @@
 ;;deft
 ;;feature-mode
 ;;graphviz-dot-mode
-;; haml-mode
+;;haml-mode
 ;;nodejs-repl
 ;;paredit
 ;;web-mode
@@ -220,7 +220,7 @@
         company-dabbrev-code-ignore-case nil
         company-dabbrev-downcase nil
         company-idle-delay 0
-        company-minimum-prefix-length 3)
+        company-minimum-prefix-length 2)
   :config
   ;;;; disables TAB in company-mode, freeing it for yasnippet
   (define-key company-active-map [tab] nil))
@@ -424,7 +424,7 @@
                     :family (if (eq system-type 'darwin)
                                 "Menlo"  ;; i like its "a" better than Monaco's
                               "DejaVu Sans Mono")
-                    :height 145)
+                    :height 140)
 
 (require 'ansi-color)
 (defun colorize-compilation-buffer ()
