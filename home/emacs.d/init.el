@@ -282,6 +282,9 @@
   :ensure t
   :init (ido-vertical-mode 1))
 
+(use-package ido-completing-read+
+  :ensure t)
+
 ;; ;; imenu-anywhere doesn't work without this
 ;; (use-package helm
 ;;   :ensure t)
