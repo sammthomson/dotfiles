@@ -10,7 +10,8 @@ alias la='ls -A'
 alias mkdir="mkdir -p"
 
 # emacs
-alias emacs="emacs -nw"
+alias e="emacs"
+alias et="emacs -nw"
 
 # grep
 #alias grep="grep -r"
