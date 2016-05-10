@@ -30,6 +30,9 @@ alias gs='git status'
 alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
 alias changelog='git log `git log -1 --format=%H -- CHANGELOG*`..; cat CHANGELOG*'
 
+# gs got clobbered by ''git status'
+alias ghostscript="/usr/local/bin/gs"
+
 alias reload='. ~/.bash_profile'
 
 alias wakeup='sudo nmcli nm sleep false'

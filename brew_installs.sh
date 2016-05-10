@@ -4,9 +4,17 @@ then
 	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 brew doctor
-brew install bash
-NEW_BASH='/usr/local/bin/bash'
-grep -qF ${NEW_BASH} /etc/shells || echo ${NEW_BASH} | sudo tee -a /etc/shells
+
+# brew install bash
+# NEW_BASH='/usr/local/bin/bash'
+# grep -qF ${NEW_BASH} /etc/shells || echo ${NEW_BASH} | sudo tee -a /etc/shells
+brew install zsh
+NEW_ZSH='/usr/local/bin/zsh'
+grep -qF ${NEW_ZSH} /etc/shells || echo ${NEW_ZSH} | sudo tee -a /etc/shells
+sudo ln -s /etc/zshenv /etc/zprofile # OSX workaround
+chsh -s /bin/zsh
+brew install antigen  # plugin manager for zsh (alternative to oh-my-zsh)
+brew install z  # better autojump
 brew install coreutils --with-default-names
 brew install findutils --with-default-names
 brew tap homebrew/dupes
