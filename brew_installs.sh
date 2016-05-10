@@ -1,8 +1,12 @@
 # homebrew
-ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+if [ -z `which brew` ]
+then
+	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
 brew doctor
 brew install bash
-echo '/usr/local/bin/bash' | sudo tee -a /etc/shells
+NEW_BASH='/usr/local/bin/bash'
+grep -qF ${NEW_BASH} /etc/shells || echo ${NEW_BASH} | sudo tee -a /etc/shells
 brew install coreutils --with-default-names
 brew install findutils --with-default-names
 brew tap homebrew/dupes
@@ -31,7 +35,7 @@ brew install scala
 brew install sbt
 brew install --HEAD paulp/extras/coursier  # better dependency resolution than ivy
 brew cask install intellij-idea
-brew cask install eclipse-ide
+# brew cask install eclipse-ide
 brew cask install osxfuse
 brew install sshfs # has to come after osxfuse
 brew cask install google-chrome
@@ -53,7 +57,7 @@ brew cask install mactex
 brew cask install spectacle
 # remap caps lock
 brew cask install seil 
-brew cask install spotify
+# brew cask install spotify
 brew cask install vlc
 brew cask install transmission
 brew cask install adium
