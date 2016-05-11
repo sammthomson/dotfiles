@@ -53,21 +53,6 @@
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
 (setq backup-by-copying t)
 
-;; too easy to suspend process by accident
-(global-unset-key (kbd "C-z"))
-
-;; shortcuts for switching window panes
-(global-set-key (kbd "s-<left>")  'windmove-left)
-(global-set-key (kbd "s-<right>")  'windmove-right)
-(global-set-key (kbd "s-<up>")  'windmove-up)
-(global-set-key (kbd "s-<down>")  'windmove-down)
-
-;; http://endlessparentheses.com/Meta-Binds-Part-1-3A-Drunk-in-the-Dark.html
-(global-set-key "\M-[" 'backward-sexp)
-(global-set-key "\M-]" 'forward-sexp)
-(global-set-key "\M-1" 'delete-other-windows)
-(global-set-key "\M-0" 'delete-window)
-
 ;; don't have to type out yes or no to prompts
 (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -81,9 +66,26 @@
 (global-set-key (kbd "RET") 'newline-and-indent)
 ;;(global-set-key (kbd "M-/") 'hippie-expand)
 
+;; too easy to suspend process by accident
+(global-unset-key (kbd "C-z"))
+
+;; shortcuts for switching windows
+(global-set-key (kbd "s-<left>")  'windmove-left)
+(global-set-key (kbd "s-<right>")  'windmove-right)
+(global-set-key (kbd "s-<up>")  'windmove-up)
+(global-set-key (kbd "s-<down>")  'windmove-down)
+
+;; http://endlessparentheses.com/Meta-Binds-Part-1-3A-Drunk-in-the-Dark.html
+(global-set-key "\M-[" 'backward-sexp)
+(global-set-key "\M-]" 'forward-sexp)
+(global-set-key "\M-1" 'delete-other-windows)
+(global-set-key "\M-0" 'delete-window)
+
 ;; http://endlessparentheses.com/meta-binds-part-2-a-peeve-with-paragraphs.html
-(global-set-key "\M-a" 'endless/backward-paragraph)
-(global-set-key "\M-e" 'endless/forward-paragraph)
+(global-set-key "\M-{" 'endless/backward-paragraph)
+(global-set-key "\M-}" 'endless/forward-paragraph)
+(global-set-key (kbd "C-<up>") 'endless/backward-paragraph)
+(global-set-key (kbd "C-<down>") 'endless/forward-paragraph)
 
 (defun endless/forward-paragraph (&optional n)
   "Advance just past next blank line.  Optionally repeat N times."
@@ -197,12 +199,12 @@
   (exec-path-from-shell-initialize))
 
 (use-package org
-  :ensure t
-  :disabled t)
+  :disabled t
+  :ensure t)
 
 (use-package htmlize
-  :ensure t
-  :disabled t)
+  :disabled t
+  :ensure t)
 
 (use-package flycheck
   :ensure t
@@ -405,13 +407,34 @@
                                     company-yasnippet)))
             (scala-mode:goto-start-of-code)))
 
-(use-package haskell-mode
-  :ensure t
-  :mode ("\\.hs$"))
+
+;;; LaTeX with AUCTeX, from https://github.com/ryanakca/ryanakca-dotfiles
+(use-package tex-site                   ; AUCTeX initialization
+  :ensure auctex)
+
+(use-package tex                        ; TeX editing/processing
+  :ensure auctex
+  :defer t
+  :config
+  (progn
+    (setq TeX-parse-self t              ; Parse documents to provide completion
+                                        ; for packages, etc.
+          TeX-auto-save t               ; Automatically save style information
+          ;; Don't ask for confirmation when cleaning
+          TeX-clean-confirm nil
+          ;; Provide forward and inverse search with SyncTeX
+          TeX-source-correlate-mode t
+          TeX-source-correlate-method 'synctex)))
+
+
+;; ;; Was messing up `forward-word' and `backward-word'.
+;; (use-package haskell-mode
+;;   :ensure t
+;;   :mode ("\\.hs$" "\\.lhs$" "\\.purs$"))
 
 (use-package idris-mode
   :ensure t
-  :mode ("\\.idr$" "\\.ipkg"))
+  :mode ("\\.idr$" "\\.lidr" "\\.ipkg"))
 
 (add-hook 'js-mode-hook
 		  (lambda ()
