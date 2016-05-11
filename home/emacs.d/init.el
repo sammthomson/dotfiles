@@ -12,7 +12,6 @@
 ;; TODO: break up into separate files?
 
 ;; GLOBAL SETTINGS
-
 (setq user-full-name "Sam Thomson")
 (setq user-mail-address "sammthomson@gmail.com")
 
@@ -132,10 +131,12 @@
   (package-install 'use-package))
 (eval-when-compile
   (require 'use-package))  ;; use-package is a macro, so not needed at runtime
-
 (require 'diminish)
 (require 'bind-key)
 
+;;; Enable to debug slow startup
+;;(setq use-package-minimum-reported-time 0)
+;;(setq use-package-verbose t)
 
 
 ;; Fonts n colors n stuff
@@ -196,13 +197,16 @@
   (exec-path-from-shell-initialize))
 
 (use-package org
-  :ensure t)
+  :ensure t
+  :disabled t)
 
 (use-package htmlize
-  :ensure t)
+  :ensure t
+  :disabled t)
 
 (use-package flycheck
   :ensure t
+  :defer t
   :init
   (global-flycheck-mode t)
   :config
@@ -293,10 +297,10 @@
   :bind (("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)))
 
-;;(require 'ido)
 (use-package flx-ido
   :ensure t
-  :config
+  :defer t
+  :init
   ;; disable ido faces to see flx highlights.
   (setq ido-enable-flex-matching t
 		ido-use-faces nil
@@ -304,7 +308,7 @@
   (ido-mode t)
   (ido-everywhere t)
   (flx-ido-mode t)
-
+  :config
   (use-package ido-vertical-mode
 	:ensure t
 	:config (ido-vertical-mode t))
@@ -402,10 +406,12 @@
             (scala-mode:goto-start-of-code)))
 
 (use-package haskell-mode
-  :ensure t)
+  :ensure t
+  :mode ("\\.hs$"))
 
 (use-package idris-mode
-  :ensure t)
+  :ensure t
+  :mode ("\\.idr$" "\\.ipkg"))
 
 (add-hook 'js-mode-hook
 		  (lambda ()
@@ -425,14 +431,15 @@
 (add-to-list 'auto-mode-alist '("\\.gitconfig$" . conf-mode))
 
 
-(use-package writegood-mode
-  :ensure t)
+
 (use-package markdown-mode
   :ensure t
   :mode ("\\.md$"
 		 "\\.mdown$")
   :config
   (visual-line-mode t)
+  (use-package writegood-mode
+	:ensure t)
   (writegood-mode t)
   (flyspell-mode t))
 ;; (setq markdown-command "pandoc --smart -f markdown -t html")
