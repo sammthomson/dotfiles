@@ -111,7 +111,7 @@
   (interactive "p")
   (endless/forward-paragraph (- n)))
 
-
+(setq ad-redefinition-action 'accept)
 
 
 ;; PACKAGES
@@ -135,6 +135,28 @@
 
 (require 'diminish)
 (require 'bind-key)
+
+
+
+;; Fonts n colors n stuff
+(use-package base16-theme
+  :ensure t
+  :init
+  (load-theme 'base16-eighties-dark t))
+
+(set-face-attribute 'default nil
+                    :family (if (eq system-type 'darwin)
+                                "Menlo"  ;; i like its "a" better than Monaco's
+                              "DejaVu Sans Mono")
+                    :height 140)
+
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  "Make terminal output with colors work."
+  (read-only-mode t)
+  (ansi-color-apply-on-region (point-min) (point-max))
+  (read-only-mode nil))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 
 
@@ -194,13 +216,13 @@
 (use-package smart-mode-line
   :ensure t
   :init
-  (use-package nyan-mode
-    :ensure t
-    :init
-    (setq nyan-wavy-trail nil
-          nyan-animate-nyancat t)
-    :config
-    (nyan-mode t))
+  ;; (use-package nyan-mode
+  ;;   :ensure t
+  ;;   :init
+  ;;   (setq nyan-wavy-trail nil
+  ;;         nyan-animate-nyancat t)
+  ;;   :config
+  ;;   (nyan-mode t))
   ;; (setq sml/shorten-directory t)
   ;; (setq sml/shorten-modes t)
   (setq sml/theme 'dark)
@@ -274,21 +296,21 @@
 ;;(require 'ido)
 (use-package flx-ido
   :ensure t
-  :init
+  :config
   ;; disable ido faces to see flx highlights.
   (setq ido-enable-flex-matching t
-      ido-use-faces nil
-      flx-ido-threshold 10000)
+		ido-use-faces nil
+		flx-ido-threshold 10000)
   (ido-mode t)
   (ido-everywhere t)
-  (flx-ido-mode t))
+  (flx-ido-mode t)
 
-(use-package ido-vertical-mode
-  :ensure t
-  :init (ido-vertical-mode 1))
+  (use-package ido-vertical-mode
+	:ensure t
+	:config (ido-vertical-mode t))
 
-(use-package ido-completing-read+
-  :ensure t)
+  (use-package ido-completing-read+
+	:ensure t))
 
 ;; ;; imenu-anywhere doesn't work without this
 ;; (use-package helm
@@ -415,25 +437,5 @@
   (flyspell-mode t))
 ;; (setq markdown-command "pandoc --smart -f markdown -t html")
 ;; (setq markdown-css-paths `(,(expand-file-name "markdown.css" abedra/vendor-dir)))
-
-
-;; Fonts n colors n stuff
-(use-package base16-theme
-  :ensure t
-  :init (load-theme 'base16-eighties-dark t))
-
-(set-face-attribute 'default nil
-                    :family (if (eq system-type 'darwin)
-                                "Menlo"  ;; i like its "a" better than Monaco's
-                              "DejaVu Sans Mono")
-                    :height 140)
-
-(require 'ansi-color)
-(defun colorize-compilation-buffer ()
-  "Make terminal output with colors work."
-  (read-only-mode t)
-  (ansi-color-apply-on-region (point-min) (point-max))
-  (read-only-mode nil))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 ;;; init.el ends here
