@@ -140,10 +140,13 @@
 ;;(setq use-package-minimum-reported-time 0)
 ;;(setq use-package-verbose t)
 
+(setq use-package-always-ensure t)
+
+(use-package auto-compile
+  :config (auto-compile-on-load-mode))
 
 ;; Fonts n colors n stuff
 (use-package base16-theme
-  :ensure t
   :init
   (load-theme 'base16-eighties-dark t))
 
@@ -163,16 +166,10 @@
 
 
 
-;;clojure-mode
 ;;coffee-mode
-;;deft
-;;feature-mode
 ;;graphviz-dot-mode
-;;haml-mode
-;;nodejs-repl
 ;;paredit
 ;;web-mode
-;;yaml-mode
 
 ;; (defun samt/all-packages-installed-p ()
 ;;   (loop for pkg in samt/packages
@@ -207,7 +204,6 @@
   :ensure t)
 
 (use-package flycheck
-  :ensure t
   :defer t
   :init
   (global-flycheck-mode t)
@@ -220,10 +216,8 @@
 (setq ns-use-srgb-colorspace t)
 
 (use-package smart-mode-line
-  :ensure t
   :init
   ;; (use-package nyan-mode
-  ;;   :ensure t
   ;;   :init
   ;;   (setq nyan-wavy-trail nil
   ;;         nyan-animate-nyancat t)
@@ -236,12 +230,10 @@
   (sml/setup))
 
 ;; (use-package auto-complete
-;;   :ensure t
 ;;   :diminish auto-complete-mode)
 ;; (global-auto-complete-mode t)
 
 (use-package company
-  :ensure t
   :diminish company-mode
   :commands company-mode
   :init
@@ -256,19 +248,17 @@
 (global-company-mode t)
 
 (use-package undo-tree
-  :ensure
   :diminish undo-tree-mode
-  :config (global-undo-tree-mode)
+  :config
+  (global-undo-tree-mode)
   :bind ("s-/" . undo-tree-visualize))
 
 ;;;; Trying smartparens instead
 ;; (use-package autopair
-;;   :ensure t
 ;;   :diminish autopair-mode)
 ;; (autopair-global-mode t)
 
 (use-package smartparens
-  :ensure t
   :diminish smartparens-mode
   :commands
   smartparens-strict-mode
@@ -295,12 +285,10 @@
 (show-paren-mode t)
 
 (use-package multiple-cursors
-  :ensure t
   :bind (("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)))
 
 (use-package flx-ido
-  :ensure t
   :defer t
   :init
   ;; disable ido faces to see flx highlights.
@@ -312,22 +300,17 @@
   (flx-ido-mode t)
   :config
   (use-package ido-vertical-mode
-	:ensure t
 	:config (ido-vertical-mode t))
 
-  (use-package ido-completing-read+
-	:ensure t))
+  (use-package ido-completing-read+))
 
 ;; ;; imenu-anywhere doesn't work without this
-;; (use-package helm
-;;   :ensure t)
+;; (use-package helm)
 
 ;; (use-package imenu-anywhere
-;;   :ensure t
 ;;   :bind ("C-." . imenu-anywhere))
 
 (use-package projectile
-  :ensure t
   :demand
   :diminish projectile-mode
   :init
@@ -339,17 +322,14 @@
            ("s-F" . projectile-grep)))
 
 (use-package expand-region
-  :ensure t
   :bind ("M-=" . er/expand-region))
 
 (use-package yasnippet
-  :ensure t
   :diminish yas-minor-mode
   :commands yas-minor-mode
   :config (yas-reload-all))
 
 (use-package magit
-  :ensure t
   :commands magit-status magit-blame
   :init (setq magit-revert-buffers nil)
   :config
@@ -358,7 +338,6 @@
          ("s-b" . magit-blame)))
 
 (use-package git-gutter
-  :ensure t
   :config
   (setq git-gutter:update-interval 2)
   (setq git-gutter:hide-gutter t)  ;; hide if no changes
@@ -373,7 +352,6 @@
 
 ;; provides history and searching on top of M-x.
 (use-package smex
-  :ensure t
   :init (setq
          smex-save-file (expand-file-name ".smex-items" user-emacs-directory))
   :bind (("M-x" . smex)
@@ -386,7 +364,6 @@
 
 ;; scala mode
 (use-package ensime
-  :ensure t
   :commands ensime ensime-mode
   :config
   (require 'ensime-expand-region))
@@ -429,11 +406,9 @@
 
 ;; ;; Was messing up `forward-word' and `backward-word'.
 ;; (use-package haskell-mode
-;;   :ensure t
 ;;   :mode ("\\.hs$" "\\.lhs$" "\\.purs$"))
 
 (use-package idris-mode
-  :ensure t
   :mode ("\\.idr$" "\\.lidr" "\\.ipkg"))
 
 (add-hook 'js-mode-hook
@@ -447,7 +422,6 @@
 ;; (add-hook 'coffee-mode-hook 'coffee-custom)
 
 (use-package yaml-mode
-  :ensure t
   :mode ("\\.yml$" "\\.yaml$"))
 
 ;; conf mode
@@ -456,13 +430,11 @@
 
 
 (use-package markdown-mode
-  :ensure t
   :mode ("\\.md$"
 		 "\\.mdown$")
   :config
   (visual-line-mode t)
-  (use-package writegood-mode
-	:ensure t)
+  (use-package writegood-mode)
   (writegood-mode t)
   (flyspell-mode t))
 ;; (setq markdown-command "pandoc --smart -f markdown -t html")
