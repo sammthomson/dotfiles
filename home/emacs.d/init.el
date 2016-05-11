@@ -64,9 +64,10 @@
 (global-set-key (kbd "s-<down>")  'windmove-down)
 
 ;; http://endlessparentheses.com/Meta-Binds-Part-1-3A-Drunk-in-the-Dark.html
-(global-set-key "\M-9" 'backward-sexp)
-(global-set-key "\M-0" 'forward-sexp)
+(global-set-key "\M-[" 'backward-sexp)
+(global-set-key "\M-]" 'forward-sexp)
 (global-set-key "\M-1" 'delete-other-windows)
+(global-set-key "\M-0" 'delete-window)
 
 ;; don't have to type out yes or no to prompts
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -305,7 +306,8 @@
   (setq projectile-use-git-grep t)
   (setq projectile-completion-system 'ido)
   :config (projectile-global-mode t)
-  :bind   (("s-f" . projectile-find-file)
+  :bind   (("M-p" . projectile-switch-project)
+		   ("s-f" . projectile-find-file)
            ("s-F" . projectile-grep)))
 
 (use-package expand-region

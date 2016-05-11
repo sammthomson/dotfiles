@@ -20,8 +20,8 @@ fi
 
 antigen use oh-my-zsh
 
-# keep it simple for now
-antigen theme mh
+# antigen theme mh
+antigen theme blinks
 
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle z
