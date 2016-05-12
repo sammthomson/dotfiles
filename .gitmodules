@@ -1,3 +1,6 @@
 [submodule "lib/antigen"]
 	path = lib/antigen
 	url = git@github.com:zsh-users/antigen.git
+[submodule "lib/z"]
+	path = lib/z
+	url = git@github.com:rupa/z.git

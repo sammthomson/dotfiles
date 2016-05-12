@@ -13,7 +13,6 @@ NEW_ZSH='/usr/local/bin/zsh'
 grep -qF ${NEW_ZSH} /etc/shells || echo ${NEW_ZSH} | sudo tee -a /etc/shells
 sudo ln -s /etc/zshenv /etc/zprofile # OSX workaround
 chsh -s /bin/zsh
-brew install z  # better autojump
 brew install coreutils --with-default-names
 brew install findutils --with-default-names
 brew tap homebrew/dupes
