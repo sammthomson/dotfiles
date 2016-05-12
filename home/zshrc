@@ -1,6 +1,3 @@
-# Source every file in .bash.d
-for f in `find ~/.zsh.d/ -type f`; do source $f; done
-
 if [ -z `which brew` ]
 then
 	export BREW="/usr/local"
@@ -16,6 +13,11 @@ if [ -e ${BREW}/etc/profile.d/z.sh ]
 then
 	source ${BREW}/etc/profile.d/z.sh
 fi
+
+# Source every file in .bash.d
+for f in `find ~/.zsh.d/ -type f`; do
+	source $f
+done
 
 
 antigen use oh-my-zsh
