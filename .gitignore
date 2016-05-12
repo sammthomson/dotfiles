@@ -38,6 +38,7 @@ home/emacs.d/ido.last
 home/emacs.d/ac-comphist.dat
 home/emacs.d/.smex-items
 home/emacs.d/ensime/
+home/emacs.d/.mc-lists.el
 
 # GHC installed packages, history, etc.
 home/ghc/ghci_history
