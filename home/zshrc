@@ -1,24 +1,19 @@
-if [ -z `which brew` ]
-then
-	export BREW="/usr/local"
-else
-	export BREW=$(brew --prefix)
-fi
-
-if [ -e ${BREW}/share/antigen.zsh ]
-then
-	source ${BREW}/share/antigen.zsh
-fi
-if [ -e ${BREW}/etc/profile.d/z.sh ]
-then
-	source ${BREW}/etc/profile.d/z.sh
-fi
-
 # Source every file in .bash.d
 for f in `find ~/.zsh.d/ -type f`; do
 	source $f
 done
 
+if [[ "$(uname)" == "Darwin" ]]
+then
+  BREW=$(brew --prefix)
+  Z="${BREW}/etc/profile.d/z.sh"  # confusingly for z, not zsh
+  if [ -e "${Z}" ]
+  then
+    source "${Z}"
+  fi
+fi
+
+source "${HOME}/code/dotfiles/lib/antigen/antigen.zsh"
 
 antigen use oh-my-zsh
 
@@ -30,16 +25,19 @@ antigen bundle z
 antigen bundle common-aliases
 antigen bundle git
 antigen bundle brew
-# antigen bundle command-not-found  # Ubuntu only
-antigen bundle osx  # OSX only, obvs
-antigen bundle Tarrasch/zsh-autoenv
+if [[ "$(uname)" == "Linux" ]]; then
+  antigen bundle command-not-found  # Ubuntu only
+fi
+if [[ "$(uname)" == "Darwin" ]]; then
+	antigen bundle osx  # OSX only
+fi
 antigen bundle scala
 antigen bundle sbt
 antigen bundle mvn
 antigen bundle tmux
 antigen bundle cabal
 antigen bundle jsontools
-# antigen bundle virtualenvwrapper
+antigen bundle Tarrasch/zsh-autoenv
 antigen-bundle Tarrasch/zsh-functional
 
 
