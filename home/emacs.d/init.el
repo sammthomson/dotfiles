@@ -5,7 +5,7 @@
 ;; https://github.com/bodil/emacs.d
 ;; https://zeekat.nl/articles/making-emacs-work-for-me.html
 ;; http://www.lunaryorn.com/2015/01/06/my-emacs-configuration-with-use-package.html
-
+;; https://github.com/sachac/.emacs.d
 
 ;;; Code:
 
@@ -115,6 +115,45 @@
 (setq ad-redefinition-action 'accept)
 
 
+;; From https://github.com/itsjeyd/emacs-config/blob/emacs24/init.el
+(defadvice kill-region (before slick-cut activate compile)
+  "When called interactively with no active region, kill a single line instead."
+  (interactive
+    (if mark-active (list (region-beginning) (region-end))
+      (list (line-beginning-position)
+        (line-beginning-position 2)))))
+
+
+;; from http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginning-of-a-line/
+(defun my/smarter-move-beginning-of-line (arg)
+  "Move point back to indentation of beginning of line.
+
+Move point to the first non-whitespace character on this line.
+If point is already there, move to the beginning of the line.
+Effectively toggle between the first non-whitespace character and
+the beginning of the line.
+
+If ARG is not nil or 1, move forward ARG - 1 lines first.  If
+point reaches the beginning or end of the buffer, stop there."
+  (interactive "^p")
+  (setq arg (or arg 1))
+
+  ;; Move lines first
+  (when (/= arg 1)
+    (let ((line-move-visual nil))
+      (forward-line (1- arg))))
+
+  (let ((orig-point (point)))
+    (back-to-indentation)
+    (when (= orig-point (point))
+      (move-beginning-of-line 1))))
+
+;; remap C-a to `smarter-move-beginning-of-line'
+(global-set-key [remap move-beginning-of-line]
+                'my/smarter-move-beginning-of-line)
+
+
+
 ;; PACKAGES
 
 ;; MELPA package management
@@ -194,6 +233,17 @@
     :ensure t)
   (setq exec-path-from-shell-check-startup-files nil)
   (exec-path-from-shell-initialize))
+
+
+;; # Winner mode - undo and redo window configuration
+;; `winner-mode' lets you use `C-c <left>' and `C-c <right>' to switch between
+;; window configurations.
+;; This is handy when something has popped up a buffer that you want to look at
+;; briefly before returning to whatever you were working on.
+;; When you're done, press `C-c <left>'.
+(use-package winner
+  :defer t
+  :init (winner-mode t))
 
 (use-package org
   :disabled t
@@ -317,7 +367,7 @@
   (setq projectile-use-git-grep t)
   (setq projectile-completion-system 'ido)
   :config (projectile-global-mode t)
-  :bind   (("M-p" . projectile-switch-project)
+  :bind   (("s-P" . projectile-switch-project)
 		   ("s-f" . projectile-find-file)
            ("s-F" . projectile-grep)))
 
@@ -325,6 +375,7 @@
   :bind ("M-=" . er/expand-region))
 
 (use-package yasnippet
+  :disabled                  ;; not actually using yet
   :diminish yas-minor-mode
   :commands yas-minor-mode
   :config (yas-reload-all))
@@ -411,9 +462,25 @@
 (use-package idris-mode
   :mode ("\\.idr$" "\\.lidr" "\\.ipkg"))
 
-(add-hook 'js-mode-hook
-		  (lambda ()
-			(setq js-indent-level 2)))
+
+(use-package js2-mode
+  :commands js2-mode
+  :mode ("\\.js$" "\\.json$")
+  :interpreter "node"
+  :bind (:map js2-mode-map
+			  ;; ("C-c C-c" . compile)
+			  ("C-x C-e" . js-send-last-sexp)
+			  ("C-c b"   . js-send-buffer)
+			  ("C-c C-b" . js-send-buffer-and-g))
+  :init
+  (setq-default js2-basic-offset 2)
+  :config
+  (js2-imenu-extras-setup)
+  (use-package js2-refactor
+	:commands js2-refactor-mode
+	:init
+	(js2r-add-keybindings-with-prefix "C-c C-m")))
+
 
 ;; (defun coffee-custom ()
 ;;   "coffee-mode-hook"
