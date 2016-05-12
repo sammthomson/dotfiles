@@ -69,6 +69,9 @@
 ;; too easy to suspend process by accident
 (global-unset-key (kbd "C-z"))
 
+;; align text according to a delimiter
+(global-set-key (kbd "C-x a r") 'align-regexp)
+
 ;; shortcuts for switching windows
 (global-set-key (kbd "s-<left>")  'windmove-left)
 (global-set-key (kbd "s-<right>")  'windmove-right)
