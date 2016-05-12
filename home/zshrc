@@ -38,7 +38,7 @@ antigen bundle tmux
 antigen bundle cabal
 antigen bundle jsontools
 # antigen bundle virtualenvwrapper
-antigen bundle web-search
+antigen-bundle Tarrasch/zsh-functional
 
 
 antigen apply
