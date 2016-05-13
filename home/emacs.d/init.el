@@ -23,7 +23,7 @@
   (scroll-bar-mode -1))
 (when (not window-system)
   (menu-bar-mode -1)
-  (xterm-mouse-mode +1))
+  (xterm-mouse-mode -1))
 
 (setq echo-keystrokes 0.05
       use-dialog-box nil)
