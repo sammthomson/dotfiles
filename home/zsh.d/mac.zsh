@@ -16,3 +16,5 @@ export PATH="$HOME/Library/Haskell/bin:$PATH"
 
 # Homebrew turned evil
 HOMEBREW_NO_ANALYTICS=1
+
+alias top='sudo htop'
