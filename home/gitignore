@@ -11,4 +11,7 @@
 .ensime_cache/
 .settings/
 .texlipse
+.classpath
+.project
+.pydevproject
 tmp/
