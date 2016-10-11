@@ -24,6 +24,8 @@ alias wakeup="sudo nmcli nm sleep false"
 
 alias tgz="tar -cvzf"
 
+alias tunnel="ssh -C2qTnN -D 6789"
+
 bak() {
   mv $1{,.bak}
 }
