@@ -22,10 +22,12 @@ brew install readline
 brew install emacs --with-cocoa --with-gnutls --with-rsvg --with-imagemagick
 brew install aspell --with-lang-en
 brew install automake
+brew install cmake
 brew install htop
 brew install tmux
 brew install watch
 brew install git
+brew install mercurial
 brew install tree
 brew install ack
 brew install trash
