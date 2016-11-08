@@ -13,6 +13,7 @@ antigen use oh-my-zsh
 antigen theme blinks
 
 antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle safe-paste
 antigen bundle z
 antigen bundle common-aliases
 antigen bundle git
