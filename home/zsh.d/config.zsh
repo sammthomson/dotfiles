@@ -5,6 +5,8 @@ if [ -d ${EMACS_BACKUP_DIR} ]; then
         mkdir ${EMACS_BACKUP_DIR}
 fi
 
+bindkey '\e[A' history-beginning-search-backward
+bindkey '\e[B' history-beginning-search-forward
 bindkey '^[[1;5C' forward-word     # [Ctrl-RightArrow] - move forward one word
 bindkey '^[[1;5D' backward-word    # [Ctrl-LeftArrow] - move backward one word
 
