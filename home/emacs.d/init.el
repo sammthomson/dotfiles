@@ -18,10 +18,10 @@
 (setq inhibit-splash-screen t
       inhibit-startup-screen t
       initial-scratch-message nil)
-(when (window-system)
+(when (display-graphic-p)
   (tool-bar-mode -1)
   (scroll-bar-mode -1))
-(when (not window-system)
+(when (not (display-graphic-p))
   (menu-bar-mode -1)
   (xterm-mouse-mode -1))
 
@@ -232,8 +232,7 @@ point reaches the beginning or end of the buffer, stop there."
 ;; OSX doesn’t set the environment from the shell init files for graphical
 ;; applications but we want it to.
 (when (memq window-system '(mac ns))
-  (use-package exec-path-from-shell
-    :ensure t)
+  (use-package exec-path-from-shell)
   (setq exec-path-from-shell-check-startup-files nil)
   (exec-path-from-shell-initialize))
 
@@ -249,12 +248,10 @@ point reaches the beginning or end of the buffer, stop there."
   :init (winner-mode t))
 
 (use-package org
-  :disabled t
-  :ensure t)
+  :disabled t)
 
 (use-package htmlize
-  :disabled t
-  :ensure t)
+  :disabled t)
 
 (use-package flycheck
   :defer t
@@ -462,9 +459,58 @@ point reaches the beginning or end of the buffer, stop there."
 ;; (use-package haskell-mode
 ;;   :mode ("\\.hs$" "\\.lhs$" "\\.purs$"))
 
+;; Idris
 (use-package idris-mode
   :mode ("\\.idr$" "\\.lidr" "\\.ipkg"))
 
+
+;; Purescript
+(use-package purescript-mode
+  :commands purescript-mode
+  :mode (("\\.purs$" . purescript-mode))
+  :config
+  (add-hook 'purescript-mode-hook 'turn-on-purescript-indentation))
+
+;; Install the psci mode.
+(use-package psci
+  :commands psci)
+
+;; Extend purescript-mode with psc-ide.
+(use-package psc-ide
+  :init
+  ;; ;; psc-ide
+  ;; (setq psc-ide-client-executable (or (ohai/resolve-exec "psc-ide-client") "psc-ide-client"))
+  ;; (setq psc-ide-server-executable (or (ohai/resolve-exec "psc-ide-server") "psc-ide-server"))
+  :after purescript-mode
+  :config
+  (add-hook 'purescript-mode-hook
+            (lambda ()
+              ;;(my/use-psc-ide-from-node-modules)
+              (psc-ide-mode t)
+              (company-mode t)
+              (flycheck-mode t)
+              (haskell-indentation-mode t)
+			  (setq psc-ide-rebuild-on-save nil))))
+
+;; (use-package psc-ide
+;;   :mode ("\\.purs"))
+
+;; (add-hook 'purescript-mode-hook
+;;   (lambda ()
+;;     (psc-ide-mode)
+;;     (company-mode)
+;;     (flycheck-mode)
+;;     (turn-on-purescript-indentation)))
+
+
+;; ATS
+(add-to-list 'load-path
+			 (concat user-emacs-directory
+					 (convert-standard-filename "ats/")))
+(load-library "ats2-mode")
+;(use-package ats2-mode
+;  :pin manual
+;  :mode ("\\.sats" "\\.dats" "\\.cats" "\\.hats"))
 
 (use-package js2-mode
   :commands js2-mode
