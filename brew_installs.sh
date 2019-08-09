@@ -13,14 +13,20 @@ NEW_ZSH='/usr/local/bin/zsh'
 grep -qF ${NEW_ZSH} /etc/shells || echo ${NEW_ZSH} | sudo tee -a /etc/shells
 sudo ln -s /etc/zshenv /etc/zprofile # OSX workaround
 chsh -s /bin/zsh
-brew install coreutils --with-default-names
-brew install findutils --with-default-names
+brew install coreutils
+brew install findutils
 brew tap homebrew/dupes
-brew install homebrew/dupes/grep --with-default-names
+brew install homebrew/dupes/grep
+brew install gnu-indent
+brew install gnu-sed
+brew install gnutls
+brew install grep
+brew install gnu-tar
+brew install gawk
 brew install wget
 brew install readline
-brew install emacs --with-cocoa --with-gnutls --with-rsvg --with-imagemagick
-brew install aspell --with-lang-en
+brew services start emacs
+brew install aspell
 brew install automake
 brew install cmake
 brew install htop
@@ -43,8 +49,12 @@ brew install maven
 brew install scala
 brew install sbt
 brew install --HEAD paulp/extras/coursier  # better dependency resolution than ivy
+brew cask install iterm2
 brew cask install intellij-idea
 # brew cask install eclipse-ide
+brew cask install docker
+brew install docker-compose
+brew install docker-machine
 brew cask install osxfuse
 brew install sshfs # has to come after osxfuse
 brew cask install google-chrome
@@ -72,10 +82,10 @@ brew cask install karabiner
 # brew cask install spotify
 brew cask install vlc
 brew cask install transmission
-brew cask install adium
-brew cask install dropbox
-brew cask install skype
-brew cask install flash
+# brew cask install adium
+# brew cask install dropbox
+# brew cask install skype
+brew cask install flash-player
 brew cask install silverlight
 # brew install inkscape  # i don't usually install this until i need it
 # anaconda?
