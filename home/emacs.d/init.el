@@ -162,10 +162,10 @@ point reaches the beginning or end of the buffer, stop there."
 ;; MELPA package management
 (when (>= emacs-major-version 24)
   (require 'package)
-  (add-to-list 'package-archives
-               '("melpa" . "https://melpa.org/packages/"))
 ;;  (add-to-list 'package-archives
-;;        '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+;;               '("melpa" . "https://melpa.org/packages/"))
+  (add-to-list 'package-archives
+        '("melpa-stable" . "https://stable.melpa.org/packages/") t)
   (package-initialize)
 )
 
@@ -175,7 +175,7 @@ point reaches the beginning or end of the buffer, stop there."
   (package-install 'use-package))
 (eval-when-compile
   (require 'use-package))  ;; use-package is a macro, so not needed at runtime
-(require 'diminish)
+;;(require 'diminish)
 (require 'bind-key)
 
 ;;; Enable to debug slow startup
@@ -188,9 +188,9 @@ point reaches the beginning or end of the buffer, stop there."
   :config (auto-compile-on-load-mode))
 
 ;; Fonts n colors n stuff
-(use-package base16-theme
-  :init
-  (load-theme 'base16-eighties-dark t))
+;; (use-package base16-theme
+;;   :init
+;;   (load-theme 'base16-eighties-dark t))
 
 (set-face-attribute 'default nil
                     :family (if (eq system-type 'darwin)
@@ -297,11 +297,11 @@ point reaches the beginning or end of the buffer, stop there."
   (define-key company-active-map [tab] nil))
 (global-company-mode t)
 
-(use-package undo-tree
-  :diminish undo-tree-mode
-  :config
-  (global-undo-tree-mode)
-  :bind ("s-/" . undo-tree-visualize))
+;; (use-package undo-tree
+;;   :diminish undo-tree-mode
+;;   :config
+;;   (global-undo-tree-mode)
+;;   :bind ("s-/" . undo-tree-visualize))
 
 ;;;; Trying smartparens instead
 ;; (use-package autopair
@@ -436,61 +436,61 @@ point reaches the beginning or end of the buffer, stop there."
             (scala-mode:goto-start-of-code)))
 
 
-;;; LaTeX with AUCTeX, from https://github.com/ryanakca/ryanakca-dotfiles
-(use-package tex-site                   ; AUCTeX initialization
-  :ensure auctex)
+;; ;;; LaTeX with AUCTeX, from https://github.com/ryanakca/ryanakca-dotfiles
+;; (use-package tex-site                   ; AUCTeX initialization
+;;   :ensure auctex)
 
-(use-package tex                        ; TeX editing/processing
-  :ensure auctex
-  :defer t
-  :config
-  (progn
-    (setq TeX-parse-self t              ; Parse documents to provide completion
-                                        ; for packages, etc.
-          TeX-auto-save t               ; Automatically save style information
-          ;; Don't ask for confirmation when cleaning
-          TeX-clean-confirm nil
-          ;; Provide forward and inverse search with SyncTeX
-          TeX-source-correlate-mode t
-          TeX-source-correlate-method 'synctex)))
+;; (use-package tex                        ; TeX editing/processing
+;;   :ensure auctex
+;;   :defer t
+;;   :config
+;;   (progn
+;;     (setq TeX-parse-self t              ; Parse documents to provide completion
+;;                                         ; for packages, etc.
+;;           TeX-auto-save t               ; Automatically save style information
+;;           ;; Don't ask for confirmation when cleaning
+;;           TeX-clean-confirm nil
+;;           ;; Provide forward and inverse search with SyncTeX
+;;           TeX-source-correlate-mode t
+;;           TeX-source-correlate-method 'synctex)))
 
 
 ;; ;; Was messing up `forward-word' and `backward-word'.
 ;; (use-package haskell-mode
 ;;   :mode ("\\.hs$" "\\.lhs$" "\\.purs$"))
 
-;; Idris
-(use-package idris-mode
-  :mode ("\\.idr$" "\\.lidr" "\\.ipkg"))
+;; ;; Idris
+;; (use-package idris-mode
+;;   :mode ("\\.idr$" "\\.lidr" "\\.ipkg"))
 
 
-;; Purescript
-(use-package purescript-mode
-  :commands purescript-mode
-  :mode (("\\.purs$" . purescript-mode))
-  :config
-  (add-hook 'purescript-mode-hook 'turn-on-purescript-indentation))
+;; ;; Purescript
+;; (use-package purescript-mode
+;;   :commands purescript-mode
+;;   :mode (("\\.purs$" . purescript-mode))
+;;   :config
+;;   (add-hook 'purescript-mode-hook 'turn-on-purescript-indentation))
 
-;; Install the psci mode.
-(use-package psci
-  :commands psci)
+;; ;; Install the psci mode.
+;; (use-package psci
+;;   :commands psci)
 
-;; Extend purescript-mode with psc-ide.
-(use-package psc-ide
-  :init
-  ;; ;; psc-ide
-  ;; (setq psc-ide-client-executable (or (ohai/resolve-exec "psc-ide-client") "psc-ide-client"))
-  ;; (setq psc-ide-server-executable (or (ohai/resolve-exec "psc-ide-server") "psc-ide-server"))
-  :after purescript-mode
-  :config
-  (add-hook 'purescript-mode-hook
-            (lambda ()
-              ;;(my/use-psc-ide-from-node-modules)
-              (psc-ide-mode t)
-              (company-mode t)
-              (flycheck-mode t)
-              (haskell-indentation-mode t)
-			  (setq psc-ide-rebuild-on-save nil))))
+;; ;; Extend purescript-mode with psc-ide.
+;; (use-package psc-ide
+;;   :init
+;;   ;; ;; psc-ide
+;;   ;; (setq psc-ide-client-executable (or (ohai/resolve-exec "psc-ide-client") "psc-ide-client"))
+;;   ;; (setq psc-ide-server-executable (or (ohai/resolve-exec "psc-ide-server") "psc-ide-server"))
+;;   :after purescript-mode
+;;   :config
+;;   (add-hook 'purescript-mode-hook
+;;             (lambda ()
+;;               ;;(my/use-psc-ide-from-node-modules)
+;;               (psc-ide-mode t)
+;;               (company-mode t)
+;;               (flycheck-mode t)
+;;               (haskell-indentation-mode t)
+;; 			  (setq psc-ide-rebuild-on-save nil))))
 
 ;; (use-package psc-ide
 ;;   :mode ("\\.purs"))
@@ -503,14 +503,14 @@ point reaches the beginning or end of the buffer, stop there."
 ;;     (turn-on-purescript-indentation)))
 
 
-;; ATS
-(add-to-list 'load-path
-			 (concat user-emacs-directory
-					 (convert-standard-filename "ats/")))
-(load-library "ats2-mode")
-;(use-package ats2-mode
-;  :pin manual
-;  :mode ("\\.sats" "\\.dats" "\\.cats" "\\.hats"))
+;; ;; ATS
+;; (add-to-list 'load-path
+;; 			 (concat user-emacs-directory
+;; 					 (convert-standard-filename "ats/")))
+;; (load-library "ats2-mode")
+;; ;(use-package ats2-mode
+;; ;  :pin manual
+;; ;  :mode ("\\.sats" "\\.dats" "\\.cats" "\\.hats"))
 
 (use-package js2-mode
   :commands js2-mode
@@ -563,3 +563,17 @@ point reaches the beginning or end of the buffer, stop there."
 ;; (setq markdown-css-paths `(,(expand-file-name "markdown.css" abedra/vendor-dir)))
 
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+	(markdown-mode yaml-mode js2-refactor js2-mode psc-ide psci purescript-mode idris-mode auctex ensime smex git-gutter magit expand-region projectile ido-completing-read+ ido-vertical-mode flx-ido multiple-cursors smartparens undo-tree company smart-mode-line flycheck-cask flycheck use-package pkg-info auto-compile))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
