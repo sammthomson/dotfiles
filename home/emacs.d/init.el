@@ -64,7 +64,7 @@
 (setq standard-indent 2)
 ;; auto indent after hitting return
 (global-set-key (kbd "RET") 'newline-and-indent)
-;;(global-set-key (kbd "M-/") 'hippie-expand)
+(global-set-key (kbd "M-/") 'hippie-expand)
 
 ;; too easy to suspend process by accident
 (global-unset-key (kbd "C-z"))
@@ -78,9 +78,12 @@
 (global-set-key (kbd "s-<up>")  'windmove-up)
 (global-set-key (kbd "s-<down>")  'windmove-down)
 
+(global-set-key "\M-[1;5D"    'backward-word)     ; alt+left    => backward word
+(global-set-key "\M-[1;5C"    'forward-word)      ; alt+right   => forward word
+
 ;; http://endlessparentheses.com/Meta-Binds-Part-1-3A-Drunk-in-the-Dark.html
-(global-set-key "\M-[" 'backward-sexp)
-(global-set-key "\M-]" 'forward-sexp)
+(global-set-key (kbd "C-<left>")  'backward-sexp)
+(global-set-key (kbd "C-<right>") 'forward-sexp)
 (global-set-key "\M-1" 'delete-other-windows)
 (global-set-key "\M-0" 'delete-window)
 
