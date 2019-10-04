@@ -87,6 +87,7 @@ brew cask install transmission
 # brew cask install skype
 brew cask install flash-player
 brew cask install silverlight
+brew cask install insomnia
 # brew install inkscape  # i don't usually install this until i need it
 # anaconda?
 
