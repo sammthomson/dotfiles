@@ -7,9 +7,9 @@ fi
 
 bindkey '\e[A' history-beginning-search-backward
 bindkey '\e[B' history-beginning-search-forward
+# Make sure to unbind these in Settings > Keyboard > Mission Control > Move {left/right} a space
 bindkey '^[[1;5C' forward-word     # [Ctrl-RightArrow] - move forward one word
 bindkey '^[[1;5D' backward-word    # [Ctrl-LeftArrow] - move backward one word
-
 
 export PATH="$PATH:$HOME/bin:$HOME/.cabal/bin"
 export PATH="/opt/scala/current/bin:$PATH"
