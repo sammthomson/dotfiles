@@ -90,9 +90,14 @@ brew cask install silverlight
 brew cask install insomnia
 # brew install inkscape  # i don't usually install this until i need it
 # anaconda?
-
+brew install starship
 
 brew cleanup
+
+
+
+# powerline fonts
+cd ~/code && git clone https://github.com/powerline/fonts.git --depth=1 && cd fonts && ./install.sh && cd .. && rm -rf fonts
 
 
 # Mac OS defaults
