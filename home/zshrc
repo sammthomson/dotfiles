@@ -31,7 +31,7 @@ antigen bundle tmux
 antigen bundle cabal
 antigen bundle jsontools
 antigen bundle Tarrasch/zsh-autoenv
-antigen-bundle Tarrasch/zsh-functional
+antigen bundle Tarrasch/zsh-functional
 antigen bundle zsh-users/zsh-syntax-highlighting  # supposed to be loaded last
 
 
