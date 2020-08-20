@@ -43,3 +43,6 @@ home/emacs.d/.mc-lists.el
 # GHC installed packages, history, etc.
 home/ghc/ghci_history
 home/ghc/x86_64*
+
+# work stuff
+home/zsh.d/sm.zsh
