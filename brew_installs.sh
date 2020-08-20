@@ -40,6 +40,7 @@ brew install trash
 brew install rename
 brew install ffmpeg
 brew install graphicsmagick
+brew install chrome-cli
 brew install caskroom/cask/brew-cask
 brew tap caskroom/versions
 brew cask install java6
