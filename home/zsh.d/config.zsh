@@ -11,8 +11,7 @@ bindkey '\e[B' history-beginning-search-forward
 bindkey '^[[1;5C' forward-word     # [Ctrl-RightArrow] - move forward one word
 bindkey '^[[1;5D' backward-word    # [Ctrl-LeftArrow] - move backward one word
 
-export PATH="$PATH:$HOME/bin:$HOME/.cabal/bin"
-export PATH="/opt/scala/current/bin:$PATH"
+export PATH="${HOME}/bin:${PATH}"
 
 
 ## from http://www.ukuug.org/events/linux2003/papers/bash_tips/

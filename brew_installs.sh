@@ -43,8 +43,8 @@ brew install graphicsmagick
 brew install chrome-cli
 brew install caskroom/cask/brew-cask
 brew tap caskroom/versions
-brew cask install java6
-brew cask install java7
+# brew cask install java6
+# brew cask install java7
 brew cask install java # 8
 brew install maven
 brew install scala
@@ -64,13 +64,13 @@ brew cask install sublime-text
 brew cask install skim
 brew cask install cyberduck # ftp
 brew cask install zotero
-brew cask install r
-# haskell
-brew cask install haskell-platform
-cabal install cabal-install # upgrade cabal
-# idris
+# brew cask install r
+# # haskell
+# brew cask install haskell-platform
+# cabal install cabal-install # upgrade cabal
 brew install pkg-config gmp libffi boehmgc llvm
-cabal install idris
+# # idris
+# cabal install idris
 # latex
 brew cask install mactex
 # # trying out slate instead
