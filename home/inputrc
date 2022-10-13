@@ -1,3 +1,5 @@
+# Note (10/4/2022): zsh doesn't use readline, so doesn't use this file.
+
 # from http://www.ukuug.org/events/linux2003/papers/bash_tips/
 "\e[A": history-search-backward
 "\e[B": history-search-forward

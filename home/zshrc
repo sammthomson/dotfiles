@@ -1,43 +1,64 @@
 # zmodload zsh/zprof  # for profiling slow startup
+
+eval $(/usr/local/Homebrew/bin/brew shellenv)
+
+
 # Source every file in .bash.d
 for f in `find ~/.zsh.d/ -type f`; do
 	source $f
 done
 
-source "${HOME}/code/dotfiles/lib/z/z.sh"
+# source "${HOME}/code/dotfiles/lib/z/z.sh"
 
-source "${HOME}/code/dotfiles/lib/antigen/antigen.zsh"
+source /opt/homebrew/share/antigen/antigen.zsh
 
 antigen use oh-my-zsh
 
 # antigen theme mh
 antigen theme blinks
 
-antigen bundle safe-paste
-antigen bundle z
-antigen bundle common-aliases
-antigen bundle git
-antigen bundle brew
+
 if [[ "$(uname)" == "Linux" ]]; then
   antigen bundle command-not-found  # Ubuntu only
 fi
 if [[ "$(uname)" == "Darwin" ]]; then
 	antigen bundle osx  # OSX only
 fi
-antigen bundle scala
-antigen bundle sbt
-antigen bundle mvn
-antigen bundle tmux
-antigen bundle cabal
-antigen bundle jsontools
-antigen bundle Tarrasch/zsh-autoenv
-antigen bundle Tarrasch/zsh-functional
-antigen bundle zsh-users/zsh-syntax-highlighting  # supposed to be loaded last
 
+bundle_names=(
+  'safe-paste'
+  'common-aliases'
+  'git'
+  'brew'
+  'scala'
+  'sbt'
+  'mvn'
+  'tmux'
+  'jsontools'
+  'cabal'
+  'Tarrasch/zsh-autoenv'
+  'Tarrasch/zsh-functional'
+  'zsh-users/zsh-syntax-highlighting'  # supposed to be loaded last
+)
+
+for bundle_name in ${bundle_names}
+do
+	antigen bundle ${bundle_name}
+done
 
 antigen apply
 
 
+# nice prompt
 eval "$(starship init zsh)"
 
+
 # zprof  # for profiling slow startup
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
