@@ -70,6 +70,7 @@ sdk install scala 2.13.8
 brew install aspell
 brew install automake
 brew install cmake
+brew install make
 brew install htop
 brew install tmux
 brew install watch
