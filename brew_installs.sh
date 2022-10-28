@@ -101,6 +101,9 @@ brew install --cask iterm2
 brew install --cask docker
 brew install docker-compose
 brew install docker-machine
+
+brew install jq
+
 brew install macfuse
 # brew install sshfs # has to come after macfuse
 brew install --cask google-chrome
