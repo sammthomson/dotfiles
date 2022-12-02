@@ -150,6 +150,9 @@ brew install --cask microsoft-word
 brew install --cask microsoft-powerpoint
 brew install --cask visual-studio-code
 
+
+brew install discord
+
 # # fonts (optional)
 # brew tap homebrew/cask-fonts
 # brew install --cask font-hack-nerd-font
