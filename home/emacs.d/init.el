@@ -572,8 +572,7 @@ point reaches the beginning or end of the buffer, stop there."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-	(markdown-mode yaml-mode js2-refactor js2-mode psc-ide psci purescript-mode idris-mode auctex ensime smex git-gutter magit expand-region projectile ido-completing-read+ ido-vertical-mode flx-ido multiple-cursors smartparens undo-tree company smart-mode-line flycheck-cask flycheck use-package pkg-info auto-compile))))
+   '(markdown-mode yaml-mode js2-refactor js2-mode psc-ide psci purescript-mode idris-mode auctex ensime smex git-gutter magit expand-region projectile ido-completing-read+ ido-vertical-mode flx-ido multiple-cursors smartparens undo-tree company smart-mode-line flycheck-cask flycheck use-package pkg-info auto-compile)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
