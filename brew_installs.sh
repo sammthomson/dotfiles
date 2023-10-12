@@ -35,18 +35,23 @@ brew services start emacs
 
 brew install pkg-config gmp libffi boehmgc llvm
 
+brew install dotnet-sdk
+brew install mono-libgdiplus
+
+
 # Python:
 brew install openssl readline sqlite3 xz zlib  # pyenv dependencies
 brew install pyenv
 pyenv install 3.7.13  # for pyharbor
 pyenv install 3.9.14  # for harbor
-pyenv install 3.10.6  # latest stable as of 10/5/2022
-pyenv global 3.7.13
+pyenv install 3.11.6  # latest stable as of 10/11/2023
+pyenv global 3.11.6
 alias python="$(pyenv which python)"
+alias python3="$(pyenv which python3)"
 alias pip="$(pyenv which pip)"
 pip install --upgrade pip
 pip install virtualenv
-curl -sSL https://install.python-poetry.org | POETRY_VERSION=1.1.15 python -
+curl -sSL https://install.python-poetry.org | python3 -
 pip install ipython  # i like to have this globally
 alias ipy="$(pyenv which ipython)"
 
