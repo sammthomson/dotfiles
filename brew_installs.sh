@@ -61,16 +61,20 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-nvm install v16.18.0
+nvm install v20.12.2
 
 # JVM:
 curl -s "https://get.sdkman.io" | bash
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 sdk install java 11.0.16.1-tem
-sdk install sbt 1.7.2
-sdk install scala 2.13.8
+sdk install java 17.0.11-tem
+sdk install java 21.0.2-tem
 
+sdk install sbt 1.7.2
+
+sdk install scala 2.13.8
+sdk install scala 3.4.1
 
 brew install aspell
 brew install automake
@@ -80,7 +84,7 @@ brew install htop
 brew install tmux
 brew install watch
 brew install git
-# brew install mercurial
+# brew install mercurial                                                  j
 brew install tree
 brew install ack
 brew install trash
@@ -167,7 +171,7 @@ brew cleanup
 
 
 # powerline fonts
-cd ~/code && git clone https://github.com/powerline/fonts.git --depth=1 && cd fonts && ./install.sh && cd .. && rm -rf fonts
+(cd ~/code && git clone https://github.com/powerline/fonts.git --depth=1 && cd fonts && ./install.sh && cd .. && rm -rf fonts)
 
 
 # Mac OS defaults

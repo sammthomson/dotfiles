@@ -10,6 +10,7 @@ export PROJECT_HOME="${HOME}/code"
 # done
 
 export PATH="$PATH:$HOME/.pyenv/shims"
+export PATH="/Users/sam/.local/bin:$PATH"
 
 alias python="$(pyenv which python)"
 alias python3="$(pyenv which python3)"

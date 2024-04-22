@@ -10,7 +10,7 @@ done
 
 # source "${HOME}/code/dotfiles/lib/z/z.sh"
 
-source /opt/homebrew/share/antigen/antigen.zsh
+source "$(brew --prefix)/share/antigen/antigen.zsh"
 
 antigen use oh-my-zsh
 
