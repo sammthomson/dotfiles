@@ -12,9 +12,9 @@ export PROJECT_HOME="${HOME}/code"
 export PATH="$PATH:$HOME/.pyenv/shims"
 export PATH="/Users/sam/.local/bin:$PATH"
 
-alias python="$(pyenv which python)"
-alias python3="$(pyenv which python3)"
-alias pip="$(pyenv which pip)"
+# alias python="$(pyenv which python)"
+# alias python3="$(pyenv which python3)"
+# alias pip="$(pyenv which pip)"
 
 
 # azure-cli
