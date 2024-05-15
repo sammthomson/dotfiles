@@ -87,6 +87,7 @@ brew install htop
 brew install tmux
 brew install watch
 brew install git
+brew install --cask git-credential-manager
 # brew install mercurial                                                  j
 brew install tree
 brew install ack
