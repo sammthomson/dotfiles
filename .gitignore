@@ -39,6 +39,7 @@ home/emacs.d/ac-comphist.dat
 home/emacs.d/.smex-items
 home/emacs.d/ensime/
 home/emacs.d/.mc-lists.el
+home/emacs.d/transient/
 
 # GHC installed packages, history, etc.
 home/ghc/ghci_history
