@@ -3,54 +3,27 @@
 eval $(/usr/local/Homebrew/bin/brew shellenv)
 
 
-# Source every file in .bash.d
+# Source every file in ~/.zsh.d/
 for f in `find ~/.zsh.d/ -type f`; do
 	source $f
 done
 
 # source "${HOME}/code/dotfiles/lib/z/z.sh"
 
-source "$(brew --prefix)/share/antigen/antigen.zsh"
 
-antigen use oh-my-zsh
+autoload -Uz compinit
+compinit
 
-# antigen theme mh
-antigen theme blinks
+# source "$(brew --prefix)/share/antigen/antigen.zsh"
+source "$(brew --prefix antidote)/share/antidote/antidote.zsh"
 
+antidote load
 
-if [[ "$(uname)" == "Linux" ]]; then
-  antigen bundle command-not-found  # Ubuntu only
-fi
-if [[ "$(uname)" == "Darwin" ]]; then
-	antigen bundle osx  # OSX only
-fi
-
-bundle_names=(
-  'safe-paste'
-  'common-aliases'
-  'git'
-  'brew'
-  'scala'
-  'sbt'
-  'mvn'
-  'tmux'
-  'jsontools'
-  'cabal'
-  'Tarrasch/zsh-autoenv'
-  'Tarrasch/zsh-functional'
-  'zsh-users/zsh-syntax-highlighting'  # supposed to be loaded last
-)
-
-for bundle_name in ${bundle_names}
-do
-	antigen bundle ${bundle_name}
-done
-
-antigen apply
+autoload -Uz promptinit && promptinit && prompt pure
 
 
-# nice prompt
-eval "$(starship init zsh)"
+# # nice prompt
+# eval "$(starship init zsh)"
 
 
 # zprof  # for profiling slow startup

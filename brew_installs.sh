@@ -18,6 +18,8 @@ grep -qF ${NEW_ZSH} /etc/shells || echo ${NEW_ZSH} | sudo tee -a /etc/shells
 sudo ln -s /etc/zshenv /etc/zprofile # OSX workaround
 chsh -s "${NEW_ZSH}"
 
+brew install antidote
+
 
 brew install coreutils
 brew install findutils
