@@ -37,7 +37,7 @@ brew services start emacs
 
 brew install pkg-config gmp libffi boehmgc llvm
 
-brew install dotnet-sdk
+brew install --cask dotnet-sdk
 brew install mono-libgdiplus
 
 
