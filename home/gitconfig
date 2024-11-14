@@ -18,7 +18,7 @@
 
 [push]
     default = simple
-	autoSetupRemote = true
+    autoSetupRemote = true
 [init]
 	defaultBranch = main
 [credential]
