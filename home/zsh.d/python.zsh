@@ -11,6 +11,7 @@ export PROJECT_HOME="${HOME}/code"
 
 export PATH="$PATH:$HOME/.pyenv/shims"
 export PATH="/Users/sam/.local/bin:$PATH"
+export PATH="$PATH:/usr/local/anaconda3/bin/"
 
 # alias python="$(pyenv which python)"
 # alias python3="$(pyenv which python3)"
