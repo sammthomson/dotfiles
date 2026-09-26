@@ -11,6 +11,15 @@ Clone the repository to `~/code/sammthomson/dotfiles`, then run:
 pwsh -File .\install.ps1
 ```
 
+Install packages missing from the standard Windows development environment:
+
+```powershell
+winget configure -f .\.config\configuration.winget
+```
+
+The initial configuration installs GNU Emacs. Review the configuration and its
+referenced DSC resources before applying it.
+
 The installer:
 
 - Adds an idempotent block to the current user's all-hosts PowerShell profile.
@@ -18,6 +27,9 @@ The installer:
   new shells without reinstalling.
 - Adds `~/.local/bin` and this repository's `bin` directory to PowerShell's
   process `PATH`.
+- Links the tracked `home/emacs.d` configuration to `%APPDATA%/.emacs.d`, the
+  Windows Emacs configuration location, without replacing an existing
+  configuration.
 - Includes `git/common.gitconfig` from the existing global Git configuration
   without replacing machine-specific credentials or identity.
 - Uses the personal Git identity in `git/personal.gitconfig` only for
@@ -39,11 +51,20 @@ Restart PowerShell after installation, or reload the profile:
 Installed PowerShell helpers include:
 
 - `..` — move to the parent directory.
+- `e PATH...` — open files in Emacs.
+- `et PATH...` — open files in terminal Emacs.
 - `gti` — typo-tolerant `git`.
 - `gs` — `git status`.
 - `reload` — reload the all-hosts PowerShell profile.
 - `bak PATH` — move a file to `PATH.bak` without overwriting an existing backup.
 - `tgz ARCHIVE PATH...` — create a gzip-compressed tar archive.
+
+The profile sets `EDITOR`, `VISUAL`, and `GIT_EDITOR` to `emacs -nw`.
+
+The Emacs configuration targets Emacs 29 and later. It uses built-in project,
+completion, pairing, Flymake, and Eglot support, with a small package set for
+Magit and common editing formats. Missing packages are installed from MELPA on
+first startup.
 
 Machine and employer-specific credentials, identities, paths, and service
 configuration do not belong in this public repository.

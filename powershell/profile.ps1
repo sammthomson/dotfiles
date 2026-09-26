@@ -18,8 +18,20 @@ function Add-DotfilesPath {
 Add-DotfilesPath (Join-Path $HOME ".local\bin")
 Add-DotfilesPath (Join-Path $dotfilesRoot "bin")
 
+$env:EDITOR = "emacs -nw"
+$env:VISUAL = $env:EDITOR
+$env:GIT_EDITOR = $env:EDITOR
+
 function global:.. {
     Set-Location ..
+}
+
+function global:e {
+    emacs @args
+}
+
+function global:et {
+    emacs -nw @args
 }
 
 function global:gti {

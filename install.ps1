@@ -10,6 +10,8 @@ $managedStart = "# >>> sammthomson dotfiles >>>"
 $managedEnd = "# <<< sammthomson dotfiles <<<"
 $profileTarget = $ProfilePath
 $trackedProfile = Join-Path $repoRoot "powershell\profile.ps1"
+$emacsConfigSource = Join-Path $repoRoot "home\emacs.d"
+$emacsConfigTarget = Join-Path $env:APPDATA ".emacs.d"
 
 function ConvertTo-GitPath {
     param([Parameter(Mandatory = $true)][string] $Path)
@@ -34,6 +36,9 @@ function Add-GitConfigValue {
 
 if (-not (Test-Path -LiteralPath $trackedProfile -PathType Leaf)) {
     throw "Tracked PowerShell profile not found: $trackedProfile"
+}
+if (-not (Test-Path -LiteralPath $emacsConfigSource -PathType Container)) {
+    throw "Tracked Emacs configuration not found: $emacsConfigSource"
 }
 
 $profileDirectory = Split-Path $profileTarget -Parent
@@ -79,6 +84,19 @@ if ($existingProfile -match $managedPattern) {
 
 New-Item -ItemType Directory -Force -Path (Join-Path $HOME ".local\bin") | Out-Null
 
+if (-not (Test-Path -LiteralPath $emacsConfigTarget)) {
+    New-Item -ItemType Junction -Path $emacsConfigTarget -Target $emacsConfigSource |
+        Out-Null
+} else {
+    $emacsConfigItem = Get-Item -LiteralPath $emacsConfigTarget
+    $resolvedSource = [System.IO.Path]::GetFullPath($emacsConfigSource)
+    $resolvedTargets = @($emacsConfigItem.Target) |
+        ForEach-Object { [System.IO.Path]::GetFullPath($_) }
+    if ($resolvedSource -notin $resolvedTargets) {
+        Write-Warning "Existing Emacs configuration was not replaced: $emacsConfigTarget"
+    }
+}
+
 if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
     throw "Git is required to install the Git configuration."
 }
@@ -91,6 +109,7 @@ Add-GitConfigValue "include.path" $commonGitConfig
 Add-GitConfigValue "includeIf.gitdir/i:$personalRoot.path" $personalGitConfig
 
 Write-Host "Installed PowerShell profile stub: $profileTarget"
+Write-Host "Installed Emacs configuration: $emacsConfigTarget"
 Write-Host "Installed common Git include: $commonGitConfig"
 Write-Host "Installed personal Git identity for: $personalRoot"
 Write-Host "Restart PowerShell or run: . `$PROFILE.CurrentUserAllHosts"
