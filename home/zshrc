@@ -19,9 +19,15 @@ if (( $+commands[brew] )); then
   antidote_profile="$(brew --prefix antidote 2>/dev/null)/share/antidote/antidote.zsh"
   if [[ -r "$antidote_profile" ]]; then
     source "$antidote_profile"
+    if [[ "$OSTYPE" == darwin* ]]; then
+      antidote_cache_dir="${XDG_CACHE_HOME:-$HOME/Library/Caches}/antidote"
+    else
+      antidote_cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/antidote"
+    fi
+    zstyle ':antidote:static' file "$antidote_cache_dir/zsh_plugins.zsh"
     antidote load "$dotfiles_root/home/zsh_plugins.txt"
   fi
-  unset antidote_profile
+  unset antidote_profile antidote_cache_dir
 fi
 
 autoload -Uz promptinit && promptinit

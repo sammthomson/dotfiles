@@ -6,7 +6,7 @@ repo_root="${0:A:h:h}"
 
 [[ "$(uname -s)" == "Darwin" ]] ||
   { print -u2 "This bootstrap supports macOS only."; exit 1; }
-[[ "$(uname -m)" == "arm64" ]] ||
+[[ "$(/usr/bin/uname -m)" == "arm64" ]] ||
   { print -u2 "This bootstrap supports Apple Silicon only."; exit 1; }
 
 if [[ ! -x /opt/homebrew/bin/brew ]]; then

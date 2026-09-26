@@ -38,8 +38,6 @@ ohmyzsh/ohmyzsh path:plugins/cabal
 Tarrasch/zsh-autoenv
 Tarrasch/zsh-functional
 
-darvid/zsh-poetry
-
 # popular fish-like plugins
 mattmc3/zfunctions
 zsh-users/zsh-autosuggestions
