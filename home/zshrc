@@ -1,26 +1,16 @@
-# zmodload zsh/zprof  # for profiling slow startup
+# zmodload zsh/zprof  # Enable with the final zprof call when profiling startup.
 
-brew_command="${commands[brew]:-}"
-if [[ -z "$brew_command" ]]; then
-  for candidate in /opt/homebrew/bin/brew /usr/local/bin/brew /usr/local/Homebrew/bin/brew; do
-    if [[ -x "$candidate" ]]; then
-      brew_command="$candidate"
-      break
-    fi
-  done
-fi
-if [[ -n "$brew_command" ]]; then
-  eval "$("$brew_command" shellenv)"
-fi
-unset brew_command candidate
+export HOMEBREW_NO_ANALYTICS=1
 
-# Source every file in ~/.zsh.d/
-for f in "$HOME"/.zsh.d/*(.N); do
-  source "$f"
+if [[ -x /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+dotfiles_root="${${(%):-%N}:A:h:h}"
+
+for file in "$dotfiles_root"/home/zsh.d/*(.N); do
+  source "$file"
 done
-
-# source "${HOME}/code/dotfiles/lib/z/z.sh"
-
 
 autoload -Uz compinit
 compinit
@@ -29,7 +19,7 @@ if (( $+commands[brew] )); then
   antidote_profile="$(brew --prefix antidote 2>/dev/null)/share/antidote/antidote.zsh"
   if [[ -r "$antidote_profile" ]]; then
     source "$antidote_profile"
-    antidote load
+    antidote load "$dotfiles_root/home/zsh_plugins.txt"
   fi
   unset antidote_profile
 fi
@@ -39,54 +29,10 @@ if [[ " ${prompt_themes[*]} " == *" pure "* ]]; then
   prompt pure
 fi
 
-
-# # nice prompt
-# eval "$(starship init zsh)"
-
-
-
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 if (( $+commands[mise] )); then
   eval "$(mise activate zsh)"
 fi
 
+unset dotfiles_root file
 
-# #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-# export SDKMAN_DIR="$HOME/.sdkman"
-# [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-# Lazy load sdkman to speed up startup time.
-sdk() {
-  # Remove this function after first call
-  unfunction sdk
-
-  # Initialize SDKMAN
-  export SDKMAN_DIR="$HOME/.sdkman"
-  [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
-
-  # Re-run the original command with all arguments
-  sdk "$@"
-}
-
-
-# conda was taking multiple seconds
-# don't even really use it anymore
-# # >>> conda initialize >>>
-# # !! Contents within this block are managed by 'conda init' !!
-# __conda_setup="$('/usr/local/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-# if [ $? -eq 0 ]; then
-#     eval "$__conda_setup"
-# else
-#     if [ -f "/usr/local/anaconda3/etc/profile.d/conda.sh" ]; then
-#         . "/usr/local/anaconda3/etc/profile.d/conda.sh"
-#     else
-#         export PATH="/usr/local/anaconda3/bin:$PATH"
-#     fi
-# fi
-# unset __conda_setup
-# # <<< conda initialize <<<
-
-
-# zprof  # for profiling slow startup
+# zprof

@@ -1,103 +1,158 @@
-#!/bin/bash
-# modified from https://github.com/holman/dotfiles/blob/master/script/bootstrap
+#!/bin/sh
 
-set -e
+set -eu
 
-info () {
-  printf "  [ \033[00;34m..\033[0m ] $1"
+mode=${1:-}
+case "$mode" in
+  --check|--link|--backup)
+    ;;
+  *)
+    echo "Usage: $0 --check|--link|--backup" >&2
+    exit 2
+    ;;
+esac
+
+script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+repo_root=$script_dir
+timestamp=$(date +%Y%m%d%H%M%S)
+status=0
+
+info() {
+  printf '%s\n' "$*"
 }
 
-user () {
-  printf "\r  [ \033[0;33m?\033[0m ] $1 "
+fail() {
+  printf 'Error: %s\n' "$*" >&2
+  exit 1
 }
 
-success () {
-  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
+backup_path() {
+  printf '%s.backup.%s\n' "$1" "$timestamp"
 }
 
-fail () {
-  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
-  echo ''
-  exit
+link_matches() {
+  [ -L "$2" ] && [ "$(readlink "$2")" = "$1" ]
 }
 
-link_files () {
-  ln -sf "${1}" "${2}"
-  success "linked ${1} to ${2}"
-}
+install_link() {
+  source_path=$1
+  target_path=$2
 
-install_dotfiles () {
-  info "installing dotfiles"
+  if link_matches "$source_path" "$target_path"; then
+    info "ok: $target_path"
+    return
+  fi
 
-  overwrite_all="false"
-  backup_all="false"
-  skip_all="false"
+  if [ "$mode" = "--check" ]; then
+    info "missing or different: $target_path"
+    status=1
+    return
+  fi
 
-  for source_file in $(ls -d "$(pwd)"/*)
-  do
-    source="$(basename ${source_file})"
-    dest="${HOME}/.${source}"
-    #echo
-    #echo source="${source}", dest="${dest}"
-    if [ -f ${dest} ] || [ -d ${dest} ] || [ -h ${dest} ]
-    then
-
-      overwrite=false
-      backup=false
-      skip=false
-
-      if [ "${overwrite_all}" == "false" ] && [ "${backup_all}" == "false" ] && [ "${skip_all}" == "false" ]
-      then
-        user "File already exists: ${dest}, what do you want to do? [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
-        read -n 1 action
-
-        case "${action}" in
-          o )
-            overwrite="true";;
-          O )
-            overwrite_all="true";;
-          b )
-            backup="true";;
-          B )
-            backup_all="true";;
-          s )
-            skip="true";;
-          S )
-            skip_all="true";;
-          * )
-            ;;
-        esac
-      fi
-
-      if [ "${overwrite}" == "true" ] || [ "${overwrite_all}" == "true" ]
-      then
-        rm -rf "${dest}"
-        success "removed ${dest}"
-      fi
-
-      if [ "${backup}" == "true" ] || [ "${backup_all}" == "true" ]
-      then
-        mv "${dest}" "${dest}.backup"
-        success "moved ${dest} to ${dest}.backup"
-      fi
-
-      if [ "${skip}" == "false" ] && [ "${skip_all}" == "false" ]
-      then
-        link_files "${source_file}" "${dest}"
-      else
-        success "skipped ${source_file}"
-      fi
-
-    else
-      link_files "${source_file}" "${dest}"
+  if [ -e "$target_path" ] || [ -L "$target_path" ]; then
+    if [ "$mode" != "--backup" ]; then
+      fail "$target_path already exists; rerun with --backup to preserve it"
     fi
+    destination=$(backup_path "$target_path")
+    [ ! -e "$destination" ] || fail "backup already exists: $destination"
+    mv "$target_path" "$destination"
+    info "backed up: $target_path -> $destination"
+  fi
 
-  done
+  mkdir -p "$(dirname -- "$target_path")"
+  ln -s "$source_path" "$target_path"
+  info "linked: $target_path -> $source_path"
 }
 
+install_zsh_loader() {
+  target_path=$HOME/.zshrc
+  source_path=$repo_root/home/zshrc
+  managed_start="# >>> sammthomson dotfiles >>>"
+  managed_end="# <<< sammthomson dotfiles <<<"
+  escaped_source=$(printf '%s' "$source_path" | sed 's/[\\`"$]/\\&/g')
+  source_line="source \"$escaped_source\""
 
-pushd home > /dev/null 2>&1
+  if [ -f "$target_path" ] &&
+     grep -Fqx "$managed_start" "$target_path" &&
+     grep -Fqx "$source_line" "$target_path" &&
+     grep -Fqx "$managed_end" "$target_path"; then
+    info "ok: $target_path"
+    return
+  fi
 
-install_dotfiles
+  if [ "$mode" = "--check" ]; then
+    info "missing or outdated loader: $target_path"
+    status=1
+    return
+  fi
 
-popd > /dev/null 2>&1
+  if link_matches "$source_path" "$target_path"; then
+    rm "$target_path"
+    info "removed legacy symlink: $target_path"
+  elif [ -L "$target_path" ]; then
+    if [ "$mode" != "--backup" ]; then
+      fail "$target_path is a different symlink; rerun with --backup"
+    fi
+    destination=$(backup_path "$target_path")
+    mv "$target_path" "$destination"
+    info "backed up: $target_path -> $destination"
+  elif [ -f "$target_path" ] && [ "$mode" = "--backup" ]; then
+    destination=$(backup_path "$target_path")
+    cp -p "$target_path" "$destination"
+    info "backed up: $target_path -> $destination"
+  elif [ -e "$target_path" ] && [ ! -f "$target_path" ]; then
+    fail "$target_path exists and is not a regular file"
+  fi
+
+  temporary=$(mktemp "${target_path}.tmp.XXXXXX")
+  if [ -f "$target_path" ]; then
+    sed "/^${managed_start}$/,/^${managed_end}$/d" "$target_path" > "$temporary"
+  fi
+
+  if [ -s "$temporary" ]; then
+    printf '\n' >> "$temporary"
+  fi
+  {
+    printf '%s\n' "$managed_start"
+    printf '%s\n' "$source_line"
+    printf '%s\n' "$managed_end"
+  } >> "$temporary"
+  mv "$temporary" "$target_path"
+  info "installed loader: $target_path"
+}
+
+ensure_git_config() {
+  key=$1
+  value=$2
+
+  if git config --global --get-all "$key" 2>/dev/null | grep -Fqx "$value"; then
+    info "ok: git $key"
+    return
+  fi
+
+  if [ "$mode" = "--check" ]; then
+    info "missing: git $key = $value"
+    status=1
+    return
+  fi
+
+  git config --global --add "$key" "$value"
+  info "configured: git $key"
+}
+
+[ -n "${HOME:-}" ] || fail "HOME is not set"
+command -v git >/dev/null 2>&1 || fail "git is required"
+
+install_zsh_loader
+install_link "$repo_root/home/emacs.d" "$HOME/.emacs.d"
+install_link "$repo_root/home/ghc" "$HOME/.ghc"
+install_link "$repo_root/home/inputrc" "$HOME/.inputrc"
+install_link "$repo_root/home/pylintrc" "$HOME/.pylintrc"
+install_link "$repo_root/mise.toml" "$HOME/.config/mise/config.toml"
+
+ensure_git_config "include.path" "$repo_root/git/common.gitconfig"
+personal_root="$HOME/code/sammthomson/"
+ensure_git_config "includeIf.gitdir/i:$personal_root.path" \
+  "$repo_root/git/personal.gitconfig"
+
+exit "$status"

@@ -1,12 +1,6 @@
 export EDITOR='emacs -nw'
-# make sure emacs has somewhere to put *~ backup files
-export EMACS_BACKUP_DIR="~/.emacs.d/backups"
-if [ -d ${EMACS_BACKUP_DIR} ]; then
-        mkdir ${EMACS_BACKUP_DIR}
-fi
-
-
-# https://superuser.com/a/357394
+export VISUAL="$EDITOR"
+export GIT_EDITOR="$EDITOR"
 
 bindkey -e
 # bindkey '\e[A' history-beginning-search-backward

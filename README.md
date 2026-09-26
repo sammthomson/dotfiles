@@ -69,14 +69,51 @@ first startup.
 Machine and employer-specific credentials, identities, paths, and service
 configuration do not belong in this public repository.
 
-## macOS and Linux
+## macOS
 
-`deploy.sh` symlinks things in the `home` folder into the user's `$HOME`
-folder, prepending a dot to the filename. It asks before replacing anything.
+The macOS setup supports Apple Silicon. Run the complete bootstrap:
 
-The tracked Zsh configuration detects macOS and WSL, including standard Apple
-Silicon and Intel Homebrew locations. It optionally loads a private synced
-profile from:
+```zsh
+zsh ./bootstrap/macos.sh
+```
+
+The bootstrap installs Homebrew when needed, applies the declarative
+`Brewfile`, deploys the tracked configuration, installs the global runtimes in
+`mise.toml`, and applies the non-elevated settings in `macos/defaults.sh`.
+
+Packages and runtimes can also be managed independently:
+
+```zsh
+brew bundle --no-upgrade --file ./Brewfile
+mise install
+```
+
+`deploy.sh` manages a small loader block in `~/.zshrc` that sources
+`home/zshrc` directly from this checkout. The tracked profile sources its
+`home/zsh.d` modules and Antidote plugin list directly from the repository, so
+edits take effect in the next shell without redeployment.
+
+Applications that cannot include tracked configuration use explicit links:
+
+- `~/.emacs.d`
+- `~/.ghc`
+- `~/.inputrc`
+- `~/.pylintrc`
+- `~/.config/mise/config.toml`
+
+The deployer also configures the common and personal conditional Git includes.
+It never replaces a conflicting target unless explicitly asked to preserve the
+old target first:
+
+```zsh
+./deploy.sh --check   # report drift without changing anything
+./deploy.sh --link    # install missing configuration; refuse conflicts
+./deploy.sh --backup  # make timestamped backups before resolving conflicts
+```
+
+## Private profile and other Unix environments
+
+The tracked Zsh configuration optionally loads a private synced profile from:
 
 - macOS: `~/Library/CloudStorage/OneDrive-*/Documents/dotfiles/zsh/profile.zsh`
 - WSL: `Documents/dotfiles/zsh/profile.zsh` below the Windows
@@ -86,15 +123,9 @@ Set `DOTFILES_LOCAL_ROOT` to bypass discovery. Native Linux and machines
 without a matching profile continue without output or side effects, so the
 same repository can be installed on a personal laptop without OneDrive.
 
-`brew_installs.sh` installs most of the Mac programs I need, sets the
-shell to `zsh`, and sets some useful system properties.
+## Manual macOS steps
 
-
-# Manual steps
-
-Unbind Ctrl-arrow in Settings > Keyboard > Shortcuts > Mission Control > Move {left/right} a space
-
----I still have to semi-manually set Caps Lock to the hyper key
-(Ctrl+Shift+Option+Command).---
----Set it to keycode `80` in Seil, then remap it using Karabiner and the
-`Karabiner/private.xml` file.---
+- Unbind Control-Left and Control-Right in **System Settings > Keyboard >
+  Keyboard Shortcuts > Mission Control** so Zsh can use them for word movement.
+- Configure Hyperkey to map Caps Lock to
+  Control-Shift-Option-Command.
