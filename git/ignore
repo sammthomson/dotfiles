@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+
+# IDEs and editors
+*.iml
+.idea/
+.project
+.settings/
+.vscode/
+
+# Local environments and generated files
+.env
+.venv/
+__pycache__/
+*.pyc
+tmp/

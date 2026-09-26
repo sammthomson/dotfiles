@@ -1,0 +1,19 @@
+[alias]
+    rpull = pull --rebase
+
+[color]
+    ui = true
+
+[color "diff"]
+    whitespace = red reverse
+
+[core]
+    whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+    excludesFile = ~/code/sammthomson/dotfiles/git/ignore
+
+[push]
+    default = simple
+    autoSetupRemote = true
+
+[init]
+    defaultBranch = main
