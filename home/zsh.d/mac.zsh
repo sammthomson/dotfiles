@@ -3,6 +3,9 @@
 
 # export PATH="$HOME/Library/Haskell/bin:$PATH"
 
+[[ "$OSTYPE" == darwin* ]] || return 0
+(( $+commands[brew] )) || return 0
+
 # use gnu utils instead of darwin knock-offs
 toolnames=(
   "coreutils"
@@ -10,7 +13,7 @@ toolnames=(
 )
 for toolname in $toolnames
 do
-  prefix="$(brew --prefix ${toolname})"
+  prefix="$(brew --prefix "${toolname}" 2>/dev/null)" || continue
   export PATH="${prefix}/libexec/gnubin:${PATH}"
   export MANPATH="${prefix}/libexec/gnuman:${MANPATH}"
 done

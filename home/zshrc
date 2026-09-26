@@ -1,11 +1,22 @@
 # zmodload zsh/zprof  # for profiling slow startup
 
-eval $(/usr/local/Homebrew/bin/brew shellenv)
-
+brew_command="${commands[brew]:-}"
+if [[ -z "$brew_command" ]]; then
+  for candidate in /opt/homebrew/bin/brew /usr/local/bin/brew /usr/local/Homebrew/bin/brew; do
+    if [[ -x "$candidate" ]]; then
+      brew_command="$candidate"
+      break
+    fi
+  done
+fi
+if [[ -n "$brew_command" ]]; then
+  eval "$("$brew_command" shellenv)"
+fi
+unset brew_command candidate
 
 # Source every file in ~/.zsh.d/
-for f in `find ~/.zsh.d/ -type f`; do
-	source $f
+for f in "$HOME"/.zsh.d/*(.N); do
+  source "$f"
 done
 
 # source "${HOME}/code/dotfiles/lib/z/z.sh"
@@ -14,12 +25,19 @@ done
 autoload -Uz compinit
 compinit
 
-# source "$(brew --prefix)/share/antigen/antigen.zsh"
-source "$(brew --prefix antidote)/share/antidote/antidote.zsh"
+if (( $+commands[brew] )); then
+  antidote_profile="$(brew --prefix antidote 2>/dev/null)/share/antidote/antidote.zsh"
+  if [[ -r "$antidote_profile" ]]; then
+    source "$antidote_profile"
+    antidote load
+  fi
+  unset antidote_profile
+fi
 
-antidote load
-
-autoload -Uz promptinit && promptinit && prompt pure
+autoload -Uz promptinit && promptinit
+if [[ " ${prompt_themes[*]} " == *" pure "* ]]; then
+  prompt pure
+fi
 
 
 # # nice prompt
@@ -30,7 +48,9 @@ autoload -Uz promptinit && promptinit && prompt pure
 # export NVM_DIR="$HOME/.nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-eval "$($(brew --prefix mise)/bin/mise activate zsh)"
+if (( $+commands[mise] )); then
+  eval "$(mise activate zsh)"
+fi
 
 
 # #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
