@@ -57,7 +57,30 @@ function global:tgz {
     tar -czf $Archive @Path
 }
 
-$localProfile = Join-Path (Split-Path $PROFILE.CurrentUserAllHosts -Parent) "profile.local.ps1"
-if (Test-Path -LiteralPath $localProfile -PathType Leaf) {
-    . $localProfile
+function Get-LocalDotfilesRoot {
+    if ($env:DOTFILES_LOCAL_ROOT) {
+        return $env:DOTFILES_LOCAL_ROOT
+    }
+
+    $runningOnWindows = $PSVersionTable.PSEdition -eq "Desktop" -or $IsWindows
+    if ($runningOnWindows) {
+        foreach ($oneDriveRoot in @($env:OneDriveCommercial, $env:OneDrive)) {
+            if ($oneDriveRoot) {
+                $candidate = Join-Path $oneDriveRoot "Documents\dotfiles"
+                if (Test-Path -LiteralPath $candidate -PathType Container) {
+                    return $candidate
+                }
+            }
+        }
+    }
+
+    return $null
+}
+
+$localDotfilesRoot = Get-LocalDotfilesRoot
+if ($localDotfilesRoot) {
+    $localProfile = Join-Path $localDotfilesRoot "powershell\profile.ps1"
+    if (Test-Path -LiteralPath $localProfile -PathType Leaf) {
+        . $localProfile
+    }
 }
