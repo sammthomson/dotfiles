@@ -1,3 +1,6 @@
 [user]
     name = Sam Thomson
     email = sammthomson@gmail.com
+
+[core]
+    hooksPath = ~/code/sammthomson/dotfiles/git/hooks

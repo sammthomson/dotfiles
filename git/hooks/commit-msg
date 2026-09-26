@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -eu
+
+message_file=$1
+
+if grep -Eiq '^[[:space:]]*Copilot-Session[[:space:]]*:' "$message_file"; then
+  echo "Commit rejected: Copilot session IDs are not allowed." >&2
+  exit 1
+fi
