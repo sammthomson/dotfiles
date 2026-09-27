@@ -140,6 +140,37 @@ ensure_git_config() {
   info "configured: git $key"
 }
 
+prepare_git_config() {
+  target_path=$HOME/.gitconfig
+  legacy_source=$repo_root/home/gitconfig
+
+  if ! link_matches "$legacy_source" "$target_path"; then
+    return
+  fi
+
+  if [ "$mode" = "--check" ]; then
+    info "legacy symlink: $target_path -> $legacy_source"
+    status=1
+    return
+  fi
+
+  if [ "$mode" != "--backup" ]; then
+    fail "$target_path is a legacy symlink; rerun with --backup to preserve it"
+  fi
+
+  destination=$(backup_path "$target_path")
+  [ ! -e "$destination" ] && [ ! -L "$destination" ] ||
+    fail "backup already exists: $destination"
+
+  if [ -e "$target_path" ]; then
+    cp -p "$target_path" "$destination"
+    rm "$target_path"
+  else
+    mv "$target_path" "$destination"
+  fi
+  info "backed up legacy symlink: $target_path -> $destination"
+}
+
 [ -n "${HOME:-}" ] || fail "HOME is not set"
 command -v git >/dev/null 2>&1 || fail "git is required"
 
@@ -150,6 +181,7 @@ install_link "$repo_root/home/inputrc" "$HOME/.inputrc"
 install_link "$repo_root/home/pylintrc" "$HOME/.pylintrc"
 install_link "$repo_root/mise.toml" "$HOME/.config/mise/config.toml"
 
+prepare_git_config
 ensure_git_config "include.path" "$repo_root/git/common.gitconfig"
 personal_root="$HOME/code/sammthomson/"
 ensure_git_config "includeIf.gitdir/i:$personal_root.path" \
