@@ -90,9 +90,11 @@ function Get-LocalDotfilesRoot {
 }
 
 $localDotfilesRoot = Get-LocalDotfilesRoot
+Remove-Item Env:COPILOT_WORKBENCH_WORK_JUDGE -ErrorAction SilentlyContinue
 if ($localDotfilesRoot) {
     $localProfile = Join-Path $localDotfilesRoot "powershell\profile.ps1"
     if (Test-Path -LiteralPath $localProfile -PathType Leaf) {
         . $localProfile
+        $env:COPILOT_WORKBENCH_WORK_JUDGE = "1"
     }
 }

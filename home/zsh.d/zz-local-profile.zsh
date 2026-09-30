@@ -1,6 +1,7 @@
 _load_local_dotfiles_profile() {
   emulate -L zsh
   setopt null_glob
+  unset COPILOT_WORKBENCH_WORK_JUDGE
 
   local relative_profile="zsh/profile.zsh"
   local -a candidates=()
@@ -46,6 +47,7 @@ _load_local_dotfiles_profile() {
 
   if (( ${#profiles[@]} == 1 )); then
     source "$profiles[1]"
+    export COPILOT_WORKBENCH_WORK_JUDGE=1
   elif (( ${#profiles[@]} > 1 )); then
     print -u2 "Multiple local dotfiles profiles found; set DOTFILES_LOCAL_ROOT:"
     printf '  %s\n' "${profiles[@]}" >&2
