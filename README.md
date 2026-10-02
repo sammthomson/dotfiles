@@ -88,6 +88,10 @@ brew bundle --no-upgrade --file ./Brewfile
 mise install
 ```
 
+`mise.toml` manages Java (Temurin 21), Scala 3.3.1, and sbt 1.13.0 alongside
+Node and Python; the Brewfile does not manage these language tools. sbt uses
+each project's configured Scala version rather than the global Scala version.
+
 `deploy.sh` manages a small loader block in `~/.zshrc` that sources
 `home/zshrc` directly from this checkout. The tracked profile sources its
 `home/zsh.d` modules and Antidote plugin list directly from the repository, so
@@ -127,5 +131,3 @@ same repository can be installed on a personal laptop without OneDrive.
 
 - Unbind Control-Left and Control-Right in **System Settings > Keyboard >
   Keyboard Shortcuts > Mission Control** so Zsh can use them for word movement.
-- Configure Hyperkey to map Caps Lock to
-  Control-Shift-Option-Command.
