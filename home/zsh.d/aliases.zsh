@@ -11,13 +11,6 @@ alias et="emacs -nw"
 # git
 alias gti="git"
 alias gs="git status"
-grm() {
-  local file
-  git ls-files --deleted -z |
-    while IFS= read -r -d '' file; do
-      git rm -- "$file"
-    done
-}
 
 alias reload="source ~/.zshrc"
 
